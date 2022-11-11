@@ -1,4 +1,7 @@
 <?php
+/**
+ * Plugin Name: XPress
+ */
 
 // Basic WP security
 if (!is_callable("add_action")) return;

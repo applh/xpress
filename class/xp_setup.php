@@ -12,7 +12,9 @@ class xp_setup
     static function admin_init ()
     {
         // https://developer.wordpress.org/reference/functions/add_menu_page/
-        add_menu_page(
+        // https://developer.wordpress.org/reference/functions/add_submenu_page/
+        add_submenu_page(
+            "plugins.php",
             "Xpress",
             "Xpress",
             "manage_options",
