@@ -6,7 +6,27 @@ $xp_url = plugin_dir_url(__DIR__);
 
 ?>
 <!-- VUEJS CONTAINER -->
-<div id="appContainer"></div>
+<div id="appContainer" class="appBox"></div>
+
+<!-- VUEJS TEMPLATE CSS-->
+<style type="text/css">
+    .appBox {
+        background-color: #eee;
+        padding: 20px;
+    }
+    .appBox form {
+        display: flex;
+        flex-direction: column;
+        max-width: 800px;
+        flex-wrap: wrap;
+    }
+    .appBox form > * {
+        margin: 0.5rem 0;
+        padding: 0.5rem;
+        width: 100%;
+        display: block;
+    }
+</style>
 
 <!-- VUEJS TEMPLATE -->
 <template id="appTemplate" data-compos="box-sm box-md box-lg box-xl">
