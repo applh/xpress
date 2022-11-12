@@ -5,14 +5,14 @@ class xp_setup
     static function plugins_loaded ()
     {
         // https://developer.wordpress.org/reference/functions/add_menu_page/
-        add_action("admin_init", "xp_setup::admin_init");
+        if (is_admin()) {
+            add_action("admin_menu", "xp_setup::admin_init");
+        }
 
     }
 
     static function admin_init ()
     {
-        // https://developer.wordpress.org/reference/functions/add_menu_page/
-        // https://developer.wordpress.org/reference/functions/add_submenu_page/
         // https://developer.wordpress.org/reference/functions/add_plugins_page/
         add_plugins_page(
             "XPress",
@@ -20,7 +20,6 @@ class xp_setup
             "edit_plugins",
             "xpress-admin",
             "xp_setup::admin_page",
-            "dashicons-admin-generic",
         );
     }
 
