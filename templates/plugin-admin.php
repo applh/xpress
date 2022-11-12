@@ -4,8 +4,6 @@
 // should output: /wp-content/plugins/xpress-main 
 $xp_url = plugin_dir_url(__DIR__);
 
-echo "Hello XPress ($xp_url)";
-
 ?>
 <!-- VUEJS CONTAINER -->
 <div id="appContainer"></div>
@@ -13,6 +11,7 @@ echo "Hello XPress ($xp_url)";
 <!-- VUEJS TEMPLATE -->
 <template id="appTemplate" data-compos="box-sm box-md box-lg box-xl">
     <section>
+        <h1><?php echo "Hello XPress ($xp_url)" ?></h1>
         <p class="pad4">{{ message }}</p>
     </section>
 </template>
@@ -23,7 +22,7 @@ echo "Hello XPress ($xp_url)";
 
 // store my reactive data
 let appData = {
-    api_url: '',
+    api_url: '<?php echo $xp_url?>/api.php',
     window_w: window.innerWidth,
     window_h: window.innerHeight,
     message: 'Vue is everywhere!'
