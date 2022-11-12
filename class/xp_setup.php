@@ -13,19 +13,18 @@ class xp_setup
     {
         // https://developer.wordpress.org/reference/functions/add_menu_page/
         // https://developer.wordpress.org/reference/functions/add_submenu_page/
-        add_submenu_page(
-            "plugins.php",
-            "Xpress",
-            "Xpress",
-            "manage_options",
-            "xpress",
-            "xp_setup::xpress_page",
+        // https://developer.wordpress.org/reference/functions/add_plugins_page/
+        add_plugins_page(
+            "XPress",
+            "XPress",
+            "edit_plugins",
+            "xpress-admin",
+            "xp_setup::admin_page",
             "dashicons-admin-generic",
-            100
         );
     }
 
-    static function xpress_page ()
+    static function admin_page ()
     {
         require __DIR__ . "/../templates/plugin-admin.php";
     }
