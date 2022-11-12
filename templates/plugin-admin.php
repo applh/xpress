@@ -11,8 +11,10 @@ $xp_url = plugin_dir_url(__DIR__);
 <!-- VUEJS TEMPLATE -->
 <template id="appTemplate" data-compos="box-sm box-md box-lg box-xl">
     <section>
-        <h1><?php echo "Hello XPress ($xp_url)" ?></h1>
+        <h1>XPress</h1>
+        <p><?php echo "($xp_url)" ?></p>
         <p class="pad4">{{ message }}</p>
+        <av-box-md></av-box-md>
     </section>
 </template>
 
@@ -38,7 +40,7 @@ let created = function () {
         compos.forEach(function (name) {
             app.component(
                 'av-' + name,
-                vue.defineAsyncComponent(() => import(`/vue/av-${name}.js`))
+                vue.defineAsyncComponent(() => import(`<?php echo $xp_url ?>/vue-compos.php?name=av-${name}&ext=.js`))
             );
         });
     }
