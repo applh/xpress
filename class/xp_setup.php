@@ -9,6 +9,42 @@ class xp_setup
             add_action("admin_menu", "xp_setup::admin_init");
         }
 
+        // add new ajax action (not logged in) action="xpress_api"
+        // warning: POST request only
+        // curl -v -X POST -d "action=xpress" https://YOUSITE.COM/wp-admin/admin-ajax.php -o ajax.json
+        add_action("wp_ajax_nopriv_xpress", "xp_setup::xpress_ajax");
+    }
+
+    static function xpress_ajax ()
+    {
+        // return json
+        $infos = [];
+        // time
+        $infos['time'] = time();
+        // date
+        $infos['date'] = date("Y-m-d H:i:s");
+        // request
+        $infos['request'] = $_REQUEST;
+        // files
+        $infos['files'] = $_FILES;
+        // debug
+        $infos['funcs'] = get_defined_functions();
+
+        if (function_exists("wp_send_json")) {
+            // debug header
+            header("X-Xpress-debug: wp_json_send");
+            wp_send_json($infos, 200); //use wp_json_send to return some data to the client.
+            wp_die(); //use wp_die() once you have completed your execution.
+        }
+        else {
+            // debug header
+            header("X-Xpress-debug: json_encode");
+            // return json response
+            header('Content-Type: application/json');
+            echo json_encode($infos);
+            die();
+        }
+
     }
 
     static function admin_init ()
