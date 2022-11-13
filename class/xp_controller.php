@@ -9,6 +9,20 @@ class xp_controller
 
     static function admin ()
     {
+        return xp_controller_helper::check_api_key();
+    }
+
+    static function tool ()
+    {
+        return xp_controller_helper::check_api_key();
+    }
+
+}
+
+class xp_controller_helper
+{
+    static function check_api_key ()
+    {
         $res = false;
         // check xpress_api_key
         $xpress_api_key = "";
@@ -33,5 +47,4 @@ class xp_controller
         }
         return $res;
     }
-
 }

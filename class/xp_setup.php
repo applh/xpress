@@ -2,7 +2,7 @@
 
 class xp_setup
 {
-    static function plugins_loaded ()
+    static function plugins_loaded()
     {
         // https://developer.wordpress.org/reference/functions/add_menu_page/
         if (is_admin()) {
@@ -12,78 +12,10 @@ class xp_setup
         // add new ajax action (not logged in) action="xpress_api"
         // warning: POST request only
         // curl -v -X POST -d "action=xpress" https://YOUSITE.COM/wp-admin/admin-ajax.php -o ajax.json
-        add_action("wp_ajax_nopriv_xpress", "xp_setup::xpress_ajax");
+        add_action("wp_ajax_nopriv_xpress", "xp_os::xpress_ajax");
     }
 
-    static function xpress_ajax ()
-    {
-        // return json
-        $infos = [];
-        // time
-        $infos['time'] = time();
-        // date
-        $infos['date'] = date("Y-m-d H:i:s");
-        // request
-        $infos['request'] = $_REQUEST;
-        // files
-        $infos['files'] = $_FILES;
-        // debug
-        // $infos['funcs'] = get_defined_functions();
-
-        // check callback
-        $infos['feedback'] = xp_setup::api_callback() ?? "";
-
-        if (function_exists("wp_send_json")) {
-            // debug header
-            header("X-Xpress-debug: wp_json_send");
-            wp_send_json($infos, 200); //use wp_json_send to return some data to the client.
-            wp_die(); //use wp_die() once you have completed your execution.
-        }
-        else {
-            // debug header
-            header("X-Xpress-debug: json_encode");
-            // return json response
-            header('Content-Type: application/json');
-            echo json_encode($infos, JSON_PRETTY_PRINT);
-            die();
-        }
-
-    }
-
-    static function api_callback ()
-    {
-        $feedback = "";
-        // get class c and method m
-        $c = $_REQUEST['c'] ?? "public";
-        $m = $_REQUEST['m'] ?? '';
-        // sanitize c and m
-        $c = preg_replace('/[^a-z0-9_]/i', '', $c);
-        $m = preg_replace('/[^a-z0-9_]/i', '', $m);
-        // get callback
-        $callback = "xpi_$c::$m";
-        $infos['callable'] = $callback;
-        // call callable if callable
-        if (is_callable($callback)) {
-            // control access
-            $control_cb = "xp_controller::$c";
-            if (is_callable($control_cb)) {
-                if ($control_cb()) {
-                    $feedback = $callback();
-                }
-                else {
-                    $feedback = "Access denied";
-                }
-            } else {
-                $feedback = "access denied";
-            }
-        } else {
-            $feedback = "not callable";
-        }
-
-        return $feedback;
-    }
-
-    static function admin_init ()
+    static function admin_init()
     {
         // https://developer.wordpress.org/reference/functions/add_plugins_page/
         add_plugins_page(
@@ -95,7 +27,7 @@ class xp_setup
         );
     }
 
-    static function admin_page ()
+    static function admin_page()
     {
         // check xpress_api_key 
         $xpress_api_key = get_option('xpress_api_key');
@@ -113,8 +45,8 @@ class xp_setup
             $code = '$xpress_api_key = "' . $xpress_api_key . '";';
 
             // add index.php with plugin annotation
-            $index_php = 
-            <<<php
+            $index_php =
+                <<<php
             <?php
             /*
             Plugin Name: XPress Data
@@ -132,4 +64,5 @@ class xp_setup
 
         require __DIR__ . "/../templates/plugin-admin.php";
     }
+
 }
