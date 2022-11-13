@@ -53,7 +53,7 @@ class xp_os
             // control access
             $control_cb = "xp_controller::$c";
             if (is_callable($control_cb)) {
-                if ($control_cb()) {
+                if ($control_cb($m)) {
                     $feedback = $callback();
                 } else {
                     $feedback = "Access denied";

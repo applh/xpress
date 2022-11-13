@@ -2,17 +2,17 @@
 
 class xp_controller
 {
-    static function public ()
+    static function public ($m="")
     {
         return true;
     }
 
-    static function admin ()
+    static function admin ($m="")
     {
         return xp_controller_helper::check_api_key();
     }
 
-    static function tool ()
+    static function tool ($m="")
     {
         return xp_controller_helper::check_api_key();
     }

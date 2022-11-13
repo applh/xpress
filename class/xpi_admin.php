@@ -2,7 +2,7 @@
 
 class xpi_admin
 {
-    static function test ()
+    static function script ()
     {
         // date
         $date = date("ymd-His");
@@ -63,6 +63,22 @@ class xpi_admin
             $zip->close();
         }
         
-        return "admin test ($date)";
+        return "admin script ($date)";
+    }
+
+    static function zip_list ()
+    {
+        // read the list of files in media zip file
+        $xp_data_dir = WP_PLUGIN_DIR . "/xpress-data";
+        $files = glob($xp_data_dir . "/media-*.zip");
+        $zip_file = $files[count($files) - 1];
+        $zip = new ZipArchive();
+        $zip->open($zip_file);
+        $list = array();
+        for ($i = 0; $i < $zip->numFiles; $i++) {
+            $list[] = $zip->getNameIndex($i);
+        }
+        $zip->close();
+        return $list;
     }
 }
