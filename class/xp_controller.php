@@ -11,7 +11,14 @@ class xp_controller
     {
         $res = false;
         // check xpress_api_key
-        $xpress_api_key = xpress_api::get_option('xpress_api_key');
+        $xpress_api_key = "";
+        if (function_exists("get_option")) {
+            $xpress_api_key = get_option('xpress_api_key');
+        }
+        elseif (is_callable("xpress_api::get_option")) {
+            $xpress_api_key = xpress_api::get_option('xpress_api_key');
+        }
+        
         // if not empty then compare with request
         if ($xpress_api_key) {
             // get request key

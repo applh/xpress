@@ -28,7 +28,10 @@ class xp_setup
         // files
         $infos['files'] = $_FILES;
         // debug
-        $infos['funcs'] = get_defined_functions();
+        // $infos['funcs'] = get_defined_functions();
+
+        // check callback
+        $infos['feedback'] = xp_setup::api_callback() ?? "";
 
         if (function_exists("wp_send_json")) {
             // debug header
@@ -41,10 +44,43 @@ class xp_setup
             header("X-Xpress-debug: json_encode");
             // return json response
             header('Content-Type: application/json');
-            echo json_encode($infos);
+            echo json_encode($infos, JSON_PRETTY_PRINT);
             die();
         }
 
+    }
+
+    static function api_callback ()
+    {
+        $feedback = "";
+        // get class c and method m
+        $c = $_REQUEST['c'] ?? "public";
+        $m = $_REQUEST['m'] ?? '';
+        // sanitize c and m
+        $c = preg_replace('/[^a-z0-9_]/i', '', $c);
+        $m = preg_replace('/[^a-z0-9_]/i', '', $m);
+        // get callback
+        $callback = "xpi_$c::$m";
+        $infos['callable'] = $callback;
+        // call callable if callable
+        if (is_callable($callback)) {
+            // control access
+            $control_cb = "xp_controller::$c";
+            if (is_callable($control_cb)) {
+                if ($control_cb()) {
+                    $feedback = $callback();
+                }
+                else {
+                    $feedback = "Access denied";
+                }
+            } else {
+                $feedback = "access denied";
+            }
+        } else {
+            $feedback = "not callable";
+        }
+
+        return $feedback;
     }
 
     static function admin_init ()
