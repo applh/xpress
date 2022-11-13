@@ -1,8 +1,6 @@
 <?php
 
 
-// should output: /wp-content/plugins/xpress-main 
-$xp_url = plugin_dir_url(__DIR__);
 
 ?>
 <!-- VUEJS CONTAINER -->
@@ -34,6 +32,10 @@ $xp_url = plugin_dir_url(__DIR__);
         <h1>XPress</h1>
         <p><?php echo "($xp_url)" ?></p>
         <p class="pad4">{{ message }}</p>
+        <form>
+            <h3>api key</h3>
+            <input type="text" v-model="api_key">
+        </form>
         <av-box-md></av-box-md>
     </section>
 </template>
@@ -44,6 +46,7 @@ $xp_url = plugin_dir_url(__DIR__);
 
 // store my reactive data
 let appData = {
+    api_key: '<?php echo $xpress_api_key ?>',
     api_url: '<?php echo $xp_url?>/api.php',
     window_w: window.innerWidth,
     window_h: window.innerHeight,

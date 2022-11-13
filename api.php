@@ -26,8 +26,13 @@ class xpress_api
         $infos['callable'] = $callback;
         // call callable if callable
         if (is_callable($callback)) {
-            $feedback = $callback();
-            $infos['feedback'] = $feedback ?? "";
+            // control access
+            if (xp_controller::$c()) {
+                $feedback = $callback();
+                $infos['feedback'] = $feedback ?? "";
+            } else {
+                $infos['error'] = "access denied";
+            }
         } else {
             $infos['feedback'] = "not callable";
         }
@@ -47,6 +52,23 @@ class xpress_api
         if (file_exists($file)) {
             require $file;
         }
+    }
+
+    static function get_option ($name)
+    {
+        $res = '';
+        // global $wpdb;
+        // $table = $wpdb->prefix . "options";
+        // $sql = "SELECT option_value FROM $table WHERE option_name = '$name'";
+        // $res = $wpdb->get_var($sql);
+
+        // include file ../xppress-data/index.php if exists
+        $file = __DIR__ . "/../xpress-data/index.php";
+        if (file_exists($file)) {
+            include $file;
+            $res = $xpress_api_key ?? '';
+        }
+        return $res;
     }
 }
 

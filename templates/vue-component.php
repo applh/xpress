@@ -34,6 +34,8 @@ export default {
     },
     methods: {
         async send_form(event) {
+            this.feedback = 'sending...';
+            
             console.log('send_form');
             console.log(event);
             let inputs = {
