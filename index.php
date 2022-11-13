@@ -10,6 +10,13 @@ class xpress
 {
     static function plugin ()
     {
+        // store the plugin dir
+        xpress::v("plugin_dir", __DIR__);
+        // store the plugin templates dir
+        xpress::v("plugin_templates_dir", __DIR__ . "/templates");
+        // store the plugin url
+        xpress::v("plugin_url", plugin_dir_url(__FILE__));
+        
         // add autoloader
         spl_autoload_register('xpress::autoload');
 
@@ -26,6 +33,22 @@ class xpress
         // check if the file exists
         if (file_exists($file)) {
             require $file;
+        }
+    }
+
+    // store key/value
+    static function v ($key, $value=null)
+    {
+        static $data = array();
+
+        if ($value == null) {
+            // read
+            return $data[$key] ?? null;
+        }
+        else {
+            // write
+            $data[$key] = $value;
+            return $value;
         }
     }
 }

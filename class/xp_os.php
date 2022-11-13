@@ -108,4 +108,19 @@ class xp_os
         return $zip;
     }
 
+    static function template_include ($template)
+    {
+        // warning: 
+        // $template must be the path to the template file
+        // as it is included right after
+        // in wp-includes/template-loader.php
+        if (is_404()) {
+            $templates_dir = xpress::v("plugin_templates_dir");
+            $template_media = $templates_dir . "/media.php";
+            if (is_file($template)) {
+                $template = $template_media;
+            }
+        }
+        return $template;
+    }
 }

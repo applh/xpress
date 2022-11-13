@@ -13,6 +13,10 @@ class xp_setup
         // warning: POST request only
         // curl -v -X POST -d "action=xpress" https://YOUSITE.COM/wp-admin/admin-ajax.php -o ajax.json
         add_action("wp_ajax_nopriv_xpress", "xp_os::xpress_ajax");
+
+        // https://developer.wordpress.org/reference/hooks/template_include/
+        add_filter( 'template_include', 'xp_os::template_include');
+
     }
 
     static function admin_init()
