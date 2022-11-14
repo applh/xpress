@@ -4,6 +4,13 @@ class xpress_api
 {
     static function json ()
     {
+        // load wp-blog-header.php
+        $path_wpbh = realpath( __DIR__ . '/../../../wp-blog-header.php' );
+        // include if exists
+        if (file_exists($path_wpbh)) {
+            include_once $path_wpbh;
+        }
+
         // add autoloader
         spl_autoload_register('xpress_api::autoload');
         xp_os::xpress_ajax();

@@ -115,12 +115,28 @@ class xp_os
         // as it is included right after
         // in wp-includes/template-loader.php
         if (is_404()) {
+            $uri = $_SERVER["REQUEST_URI"];
+            // TODO: should take into account if home_url is not / 
+            // if $uri starts with /@/
             $templates_dir = xpress::v("plugin_templates_dir");
-            $template_media = $templates_dir . "/media.php";
-            if (is_file($template)) {
-                $template = $template_media;
+            $template_xp = "";
+            if (str_starts_with($uri, "/@/media")) {
+                $template_xp = $templates_dir . "/media.php";                
+            }
+            if (str_starts_with($uri, "/@/admin")) {
+                $template_xp = $templates_dir . "/xp-admin.php";
+            }
+
+            if ($template_xp && is_file($template_xp)) {
+                // store original template
+                xpress::v("template_404", $template);
+                // set new template
+                $template = $template_xp;
             }
         }
+        
+        // TODO: could be a page template
+
         return $template;
     }
 }
