@@ -81,8 +81,8 @@ $xpress_api_key = "";
 
         // store my reactive data
         let appData = {
-            api_key: '<?php echo $xpress_api_key ?>',
-            api_url: '<?php echo $xp_url ?>/api.php',
+            api_key: '',
+            api_url: '/wp-admin/admin-ajax.php',
             window_w: window.innerWidth,
             window_h: window.innerHeight,
             message: 'Vue is everywhere!'
@@ -119,7 +119,8 @@ $xpress_api_key = "";
 
             // test api
             this.api({
-                m: 'stat',
+                action: 'xpress',
+                m: 'test',
                 message: this.message,
             });
         }
@@ -135,19 +136,31 @@ $xpress_api_key = "";
                 for (let key in inputs) {
                     formData.append(key, inputs[key]);
                 }
-                // send request
-                let response = await fetch(this.api_url, {
-                    method: 'POST',
-                    body: formData
-                });
-
-                let data = null;
-                try {
-                    data = await response.json();
-                    console.log(data);
-                } catch (e) {
-                    console.log(e);
+                // default api_url can be overriden by local inputs
+                let request_url = this.api_url;
+                if (formData.has('api_url')) {
+                    request_url = formData.get('api_url');
+                    if (!request_url) {
+                        // if api_url is empty, use default
+                        request_url = this.api_url;
+                    }
+                    // formData.delete('api_url');
                 }
+                let data = null;
+                if (request_url) {
+                    try {
+                        // send request
+                        let response = await fetch(request_url, {
+                            method: 'POST',
+                            body: formData
+                        });
+                        data = await response.json();
+                        console.log(data);
+                    } catch (e) {
+                        console.log(e);
+                    }
+                }
+
                 return data;
             },
             test(msg = '') {
