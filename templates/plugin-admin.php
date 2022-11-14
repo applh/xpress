@@ -27,7 +27,7 @@
 </style>
 
 <!-- VUEJS TEMPLATE -->
-<template id="appTemplate" data-compos="box-sm box-md box-lg box-xl">
+<template id="appTemplate" data-compos="box-sm box-md box-lg box-xl form-builder">
     <section>
         <h1>XPress</h1>
         <p><?php echo "($xp_url)" ?></p>
@@ -36,7 +36,10 @@
             <h3>api key</h3>
             <input type="text" v-model="api_key">
         </form>
-        <av-box-md></av-box-md>
+        <av-box-sm v-if="window_w < 800"></av-box-sm>
+        <av-box-md v-else-if="window_w < 1200"></av-box-md>
+        <av-box-lg v-else-if="window_w < 1600"></av-box-lg>
+        <av-box-xl v-else></av-box-xl>
     </section>
 </template>
 

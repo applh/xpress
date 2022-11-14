@@ -16,6 +16,19 @@ $xpress_api_key = "";
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XP ADMIN</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 16px;
+        }
+        * {
+            box-sizing: border-box;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -26,7 +39,7 @@ $xpress_api_key = "";
     <style type="text/css">
         .appBox {
             background-color: #eee;
-            padding: 20px;
+            padding: 2rem;
         }
 
         .appBox form {
@@ -45,7 +58,7 @@ $xpress_api_key = "";
     </style>
 
     <!-- VUEJS TEMPLATE -->
-    <template id="appTemplate" data-compos="box-sm box-md box-lg box-xl">
+    <template id="appTemplate" data-compos="box-sm box-md box-lg box-xl form-builder">
         <section>
             <h1>XPress</h1>
             <p><?php echo "($xp_url)" ?></p>
