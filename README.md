@@ -22,6 +22,7 @@
 
 * VueJS can load components only when templates are using them
 * VueJS relies on JS modules import to load components
+* No NodeJS: VueJS components are direct JS modules import in the browser
 
 ### PHP CLASSES WITH AUTOLADER
 

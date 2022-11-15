@@ -6,8 +6,13 @@ console.log('compo module loaded: <?php echo $name ?>');
 let template = `
 <div class="compo <?php echo $name ?>">
     <h3>Component <?php echo $name ?></h3>
-    <av-form-builder></av-form-builder>
-    <av-toolbar></av-toolbar>
+    <ul>
+        <li><a href="#">action1</a></li>
+        <li><a href="#">action2</a></li>
+        <li><a href="#">action3</a></li>
+        <li><a href="#">action4</a></li>
+        <li><a href="#">action5</a></li>
+    </ul>
 </div>
 `;
 

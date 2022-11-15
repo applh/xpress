@@ -29,7 +29,7 @@
 </style>
 
 <!-- VUEJS TEMPLATE -->
-<template id="appTemplate" data-compos="box-sm box-md box-lg box-xl form-builder">
+<template id="appTemplate" data-compos="box-sm box-md box-lg box-xl form-builder toolbar">
     <section>
         <h1>XPress</h1>
         <p><?php echo "($xp_url)" ?></p>

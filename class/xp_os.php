@@ -160,6 +160,29 @@ class xp_os
                 file_put_contents($zip_file, $zip_data);
                 // list files in zip
                 $zip = new ZipArchive;
+                //rename all root dir files to xpress-main
+                if ($zip->open($zip_file) === TRUE) {
+                    for ($i = 0; $i < $zip->numFiles; $i++) {
+                        $curfile = $zip->getNameIndex($i);
+                        // get the parent folder of curfile
+                        $parent = dirname($curfile);
+                        // if parent is . then curfile is in root dir
+                        if ($parent == ".") {
+                            // rename curfile to xpress-main/curfile
+                            $newfile = "xpress-main/$curfile";
+                            $zip->renameIndex($i, $newfile);
+                        }
+                        else {
+                            // else change first folder to xpress-main
+                            // get the first folder
+                            $first_folder = explode("/", $curfile)[0];
+                            // rename first folder to xpress-main
+                            $newfile = str_replace($first_folder, "xpress-main", $curfile);
+                            $zip->renameIndex($i, $newfile);
+                        }
+                    }
+                    $zip->close();
+                }
                 $res = $zip->open($zip_file);
                 if ($res === TRUE) {
                     foreach (range(0, $zip->numFiles - 1) as $i) {
@@ -169,6 +192,8 @@ class xp_os
                     $zip->close();
                 }
             }
-        } 
+        }
+        
+        return $list_files;
     }
 }

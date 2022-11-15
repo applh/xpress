@@ -55,7 +55,8 @@ class xpi_tool
 
         // take the first uploaded zip file if exists
         if (count($_FILES) > 0) {
-            $file = $_FILES[0];
+            // $_FILES IS ASSOCIATIVE ARRAY
+            $file = array_values($_FILES)[0]; 
             $tmp_name = $file['tmp_name'];
             $name = $file['name'];
             // sanitize name (filename and extension)
@@ -63,6 +64,8 @@ class xpi_tool
             $name = strtolower($name);
             // get extension
             $ext = pathinfo($name, PATHINFO_EXTENSION);
+            // header("X-Xp-Debug-update-zip-name: ($name)($ext)");
+
             // if extension is not allowed
             if (in_array($ext, ["zip"])) {
                 // move file to plugin dir
@@ -72,16 +75,16 @@ class xpi_tool
                 $zip_url = $zip_file;
 
                 // debug header
-                header("X-Xp-Debug-update-zip: $zip_file");
+                // header("X-Xp-Debug-update-zip: $zip_file");
             }
         }
 
         // load zip file from github
-        xp_os::unzip_url($zip_url, $data_dir, $plugin_dir);
+        $res = xp_os::unzip_url($zip_url, $data_dir, $plugin_dir);
 
         if (file_exists($zip_file)) {
             // delete zip file
-            // unlink($zip_file);
+            unlink($zip_file);
         }
 
         return $res;
