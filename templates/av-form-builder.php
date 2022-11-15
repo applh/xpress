@@ -5,15 +5,15 @@ console.log('compo module loaded: <?php echo $name ?>');
 // HTML template
 let template = `
 <div class="compo <?php echo $name ?>">
-    <h3>Component <?php echo $name ?></h3>
+    <h3 v-if="af.title">{{ af.title }}</h3>
     <div>
         <form @submit.prevent="send_form($event)">
             <template v-for="input in inputs">
-                <textarea v-if="input.type=='textarea'" rows="10" v-model="input.value"></textarea>
+                <textarea v-if="input.type=='textarea'" :placeholder="input.placeholder" rows="10" v-model="input.value"></textarea>
                 <input v-else :type="input.type" :placeholder="input.placeholder" v-model="input.value">
             </template>
-            <button type="submit">Send</button>
-            <pre>{{ feedback }}</pre>
+            <button type="submit">{{ af.label_submit ?? 'SEND' }}</button>
+            <pre class=".feedback">{{ feedback }}</pre>
         </form>
     </div>
 </div>
@@ -24,16 +24,17 @@ export default {
     inject: ['avroot'],
     data() {
         return {
-            inputs: [
-                {name: 'api_url', value: '/wp-admin/admin-ajax.php'},
-                {name: 'api_key', value: '', 'type': 'password'},
-                {name: 'action', value: 'xpress'}, // NEEDED BY WP admin-ajax.php
-                {name: 'c', value: 'public'},
-                {name: 'm', value: 'test'},
-                {name: 'code', value: '', 'type': 'textarea'},
-            ],
+            active_menu: 'default',
             feedback: '',
             message: 'Hello from compo <?php echo $name ?>',
+        }
+    },
+    computed: {
+        af() {
+            return this.avroot.active_form;
+        },
+        inputs() {
+            return this.avroot.active_form.inputs;
         }
     },
     methods: {
