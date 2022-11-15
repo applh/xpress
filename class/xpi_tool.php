@@ -54,9 +54,8 @@ class xpi_tool
         $data_dir = xp_os::get_dir("../xpress-data");
 
         // take the first uploaded zip file if exists
-        $files = $_FILES;
-        if (count($files) > 0) {
-            $file = $files[0];
+        if (count($_FILES) > 0) {
+            $file = $_FILES[0];
             $tmp_name = $file['tmp_name'];
             $name = $file['name'];
             // sanitize name (filename and extension)
@@ -70,8 +69,10 @@ class xpi_tool
                 $prefix = date("ymd-His-") . uniqid();
                 $zip_file = "$data_dir/$prefix-$name";
                 move_uploaded_file($tmp_name, $zip_file);
-
                 $zip_url = $zip_file;
+
+                // debug header
+                header("X-Xp-Debug-update-zip: $zip_file");
             }
         }
 
@@ -80,7 +81,7 @@ class xpi_tool
 
         if (file_exists($zip_file)) {
             // delete zip file
-            unlink($zip_file);
+            // unlink($zip_file);
         }
 
         return $res;

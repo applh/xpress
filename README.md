@@ -9,6 +9,8 @@
 
 * Send emails
 * Store files
+* Upgrade plugin directly from the github.com repository
+* Update the plugin from a zip file
 * ...
  
 ## APPLICATION STREAMING
