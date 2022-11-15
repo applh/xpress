@@ -5,14 +5,14 @@ console.log('compo module loaded: <?php echo $name ?>');
 // HTML template
 let template = `
 <div class="compo <?php echo $name ?>">
-    <h3 v-if="af.title">{{ af.title }}</h3>
+    <h3 v-if="af?.title">{{ af?.title }}</h3>
     <div>
         <form @submit.prevent="send_form($event)">
             <template v-for="input in inputs">
                 <textarea v-if="input.type=='textarea'" :placeholder="input.placeholder" rows="10" v-model="input.value"></textarea>
                 <input v-else :type="input.type" :placeholder="input.placeholder" v-model="input.value">
             </template>
-            <button type="submit">{{ af.label_submit ?? 'SEND' }}</button>
+            <button type="submit">{{ af?.label_submit ?? 'SEND' }}</button>
             <pre class=".feedback">{{ feedback }}</pre>
         </form>
     </div>
@@ -24,7 +24,7 @@ export default {
     inject: ['avroot'],
     data() {
         return {
-            active_menu: 'default',
+            active_menu: 'home',
             feedback: '',
             message: 'Hello from compo <?php echo $name ?>',
         }
@@ -34,7 +34,7 @@ export default {
             return this.avroot.active_form;
         },
         inputs() {
-            return this.avroot.active_form.inputs;
+            return this.avroot.active_form?.inputs ?? [];
         }
     },
     methods: {

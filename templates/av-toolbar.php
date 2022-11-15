@@ -6,11 +6,9 @@ console.log('compo module loaded: <?php echo $name ?>');
 let template = `
 <div class="compo <?php echo $name ?>">
     <ul>
-        <li><a href="#" @click="menu('default')">default</a></li>
-        <li><a href="#" @click="menu('contact')">contact</a></li>
-        <li><a href="#">action3</a></li>
-        <li><a href="#">action4</a></li>
-        <li><a href="#">action5</a></li>
+        <li v-for="item in am">
+            <a href="#" @click="menu(item.value)">{{ item.label }}</a>
+        </li>
     </ul>
 </div>
 `;
@@ -22,10 +20,16 @@ export default {
         return {
         }
     },
+    computed: {
+        am() {
+            return this.avroot.menus;
+        }
+    },
     methods: {
         menu(name) {
             console.log('menu: ' + name);
-            this.avroot.active_menu = name;
+            // update menu             
+            this.avroot.active_menu = this.avroot.menus[name];
             this.avroot.active_form = this.avroot.forms[name];
         }
     },

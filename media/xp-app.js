@@ -2,12 +2,23 @@ console.log('hello');
 
 // store my reactive data
 let appData = {
+    active_menu: null,
+    menus: {
+        'home': {
+            label: 'Home',
+            value: 'home',
+        },
+        'contact': {
+            label: 'Contact',
+            value: 'contact',
+        },
+    },
+    options_ui: {},
     app_json: {},
-    active_menu: 'default',
     active_form: null,
     forms: {
-        'default': {
-            title: 'Default Form',
+        'home': {
+            title: 'Home Form',
             label_submit: 'SEND API REQUEST',
             inputs: [{
                 name: 'api_url',
@@ -95,7 +106,9 @@ let created = function() {
     }
 
     // set active form
-    this.active_form = this.forms['default'];
+    this.active_form = this.forms['home'];
+    // set active menu
+    this.active_menu = this.menus['home'];
 }
 
 let mounted = function() {
