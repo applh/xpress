@@ -19,6 +19,36 @@ class xpi_admin
         // and don't overwrite existing files
         $res = "admin script ($date)";
 
+        // CODE PROCESSING
+        $filename = $_REQUEST['filename'] ?? '';
+        $filename = trim($filename);
+        // accept letters, numbers, underscore, dash and dot
+        // $filename = preg_replace('/[^a-z0-9_\-\.]/i', '', $filename);
+        $filename = preg_replace('/[^a-z0-9\-_]/i', '', $filename);
+        // lowercase
+        $filename = strtolower($filename);
+
+        $extension = $_REQUEST['extension'] ?? '';
+        $extension = trim($extension);
+        $extension = preg_replace('/[^a-z0-9-_]/i', '', $extension);
+        // lowercase
+        $extension = strtolower($extension);
+
+        $code = $_REQUEST['code'] ?? '';
+        $code = trim($code);
+        // if extension is json then decode code
+        if ($extension == "json") {
+            // FIXME: WHY DO WE NEED stripslashes() ???
+            $code = stripslashes($code);
+            $json_infos = json_decode($code, true);
+            // if not valid set empty array
+            $json ??= [];
+
+            $res = $json_infos;
+        }
+
+        // ZIP PROCESSING
+
         // store each file in different zip file 
         // depending on its file extension
         $ext_zips = [];

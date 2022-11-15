@@ -22,12 +22,12 @@ class xp_os
 
         if (function_exists("wp_send_json")) {
             // debug header
-            header("X-Xpress-debug: wp_json_send");
+            // header("X-Xpress-debug: wp_json_send");
             wp_send_json($infos, 200); //use wp_json_send to return some data to the client.
             wp_die(); //use wp_die() once you have completed your execution.
         } else {
             // debug header
-            header("X-Xpress-debug: json_encode");
+            // header("X-Xpress-debug: json_encode");
             // return json response
             header('Content-Type: application/json');
             echo json_encode($infos, JSON_PRETTY_PRINT);

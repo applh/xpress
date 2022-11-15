@@ -64,14 +64,22 @@ let appData = {
                 value: 'script',
                 type: 'hidden',
             },{
-                name: 'upload',
-                placeholder: 'Upload',
-                type: 'file',
+                name: 'filename',
+                value: '', 
+                placeholder: 'Filename',
+            }, {
+                name: 'extension',
+                value: '', 
+                placeholder: 'Extension',
             }, {
                 name: 'code',
                 value: '',
                 type: 'textarea',
                 placeholder: 'enter your script here',
+            }, {
+                name: 'upload',
+                placeholder: 'Upload',
+                type: 'file',
             }, ],
         },
         'contact': {
