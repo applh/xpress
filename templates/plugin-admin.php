@@ -39,6 +39,16 @@
         padding: 0.5rem;
         display: inline-block;
     }
+    .appBox nav ul {
+        list-style: none;
+        padding: 0;
+    }
+    .appBox nav a {
+        text-decoration: none;
+        display: inline-block;
+        padding: 1rem;
+    }
+
 </style>
 
 <template id="appJson">
@@ -52,25 +62,27 @@
 <template id="appTemplate" data-compos="box-sm box-md box-lg box-xl form-builder toolbar">
     <section>
         <h1>XPress ({{ active_menu?.label }})</h1>
-        <div>
-            <label>
-                <span>api config</span>
-                <input type="checkbox" v-model="options_ui.show_api_config">
-            </label>
-        </div>
-        <div v-if="options_ui.show_api_config">
-            <form>
-                <h3>api url</h3>
-                <input type="text" v-model="api_url">
-                <h3>api key</h3>
-                <input type="password" v-model="api_key">
-            </form>
-        </div>
         <av-box-sm v-if="window_w < 800"></av-box-sm>
         <av-box-md v-else-if="window_w < 1200"></av-box-md>
         <av-box-lg v-else-if="window_w < 1600"></av-box-lg>
         <av-box-xl v-else></av-box-xl>
         <p class="pad4">{{ message }}</p>
+        <aside>
+            <div>
+                <label>
+                    <span>api config</span>
+                    <input type="checkbox" v-model="options_ui.show_api_config">
+                </label>
+            </div>
+            <div v-if="options_ui.show_api_config">
+                <form>
+                    <h3>api url</h3>
+                    <input type="text" v-model="api_url">
+                    <h3>api key</h3>
+                    <input type="password" v-model="api_key">
+                </form>
+            </div>
+        </aside>
     </section>
 </template>
 

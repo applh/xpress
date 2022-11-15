@@ -8,6 +8,10 @@ let appData = {
             label: 'Home',
             value: 'home',
         },
+        'script': {
+            label: 'Script',
+            value: 'script',
+        },
         'contact': {
             label: 'Contact',
             value: 'contact',
@@ -46,6 +50,28 @@ let appData = {
                 value: '',
                 type: 'textarea',
                 placeholder: 'Code',
+            }, ],
+        },
+        'script': {
+            title: 'Script Form',
+            label_submit: 'SEND SCRIPT',
+            inputs: [{
+                name: 'c',
+                value: 'admin',
+                type: 'hidden',
+            }, {
+                name: 'm',
+                value: 'script',
+                type: 'hidden',
+            },{
+                name: 'upload',
+                placeholder: 'Upload',
+                type: 'file',
+            }, {
+                name: 'code',
+                value: '',
+                type: 'textarea',
+                placeholder: 'enter your script here',
             }, ],
         },
         'contact': {
@@ -133,12 +159,19 @@ let mounted = function() {
 }
 
 let methods = {
-    async api(inputs) {
+    async api(inputs, fd=null) {
         if (!this.api_url) {
             return;
         }
 
-        let formData = new FormData();
+        let formData = fd;
+        formData ??= new FormData();
+
+        // Display the key/value pairs
+        for (const pair of formData.entries()) {
+            console.log(`${pair[0]}, ${pair[1]}`);
+        }
+        
         // add inputs to FormData
         for (let key in inputs) {
             formData.append(key, inputs[key]);

@@ -5,11 +5,13 @@ console.log('compo module loaded: <?php echo $name ?>');
 // HTML template
 let template = `
 <div class="compo <?php echo $name ?>">
-    <ul>
-        <li v-for="item in am">
-            <a href="#" @click="menu(item.value)">{{ item.label }}</a>
-        </li>
-    </ul>
+    <nav>
+        <ul>
+            <li v-for="item in am">
+                <a href="#" @click="menu(item.value)">{{ item.label }}</a>
+            </li>
+        </ul>
+    </nav>
 </div>
 `;
 
