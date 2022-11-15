@@ -75,11 +75,7 @@ class xp_os
         if ($zip == null) {
 
             // plugin xp-data dir
-            $xp_data_dir = WP_PLUGIN_DIR . "/xpress-data";
-            // create dir if not exists
-            if (!file_exists($xp_data_dir)) {
-                mkdir($xp_data_dir, 0777, true);
-            }
+            $xp_data_dir = xp_os::get_dir("../xpress-data");
 
             // find files in media dir with name media-*.zip
             $files = glob($xp_data_dir . "/media-*.zip");
@@ -138,5 +134,41 @@ class xp_os
         // TODO: could be a page template
 
         return $template;
+    }
+
+    // relative path to xpress-main plugin dir
+    static function get_dir ($path="")
+    {
+        $plugin_dir = xpress::v("plugin_dir");
+        $path2 = "$plugin_dir/$path";
+        // create dir if not exists
+        if (!file_exists($path2)) {
+            mkdir($path2, 0777, true);
+        }
+        return realpath($path2);
+    }
+
+    static function unzip_url ($zip_url, $data_dir, $plugin_dir)
+    {
+        // load zip file from github
+        $zip_data = file_get_contents($zip_url);
+        $list_files = [];
+
+        if ($zip_data) {
+            if ($data_dir) {
+                $zip_file = "$data_dir/xpress-main.zip";
+                file_put_contents($zip_file, $zip_data);
+                // list files in zip
+                $zip = new ZipArchive;
+                $res = $zip->open($zip_file);
+                if ($res === TRUE) {
+                    foreach (range(0, $zip->numFiles - 1) as $i) {
+                        $list_files[] = $zip->getNameIndex($i);
+                    }
+                    $zip->extractTo($plugin_dir);
+                    $zip->close();
+                }
+            }
+        } 
     }
 }

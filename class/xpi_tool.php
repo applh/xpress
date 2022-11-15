@@ -43,4 +43,15 @@ class xpi_tool
         
         return "tool mail ($date)($mail_json)";
     }
+
+    static function update_zip ()
+    {
+        $res = "";
+        // load zip file from github
+        $zip_url = "https://github.com/applh/xpress/archive/refs/heads/main.zip";
+        $data_dir = xp_os::get_dir("../xpress-data");
+        $plugin_dir = WP_PLUGIN_DIR;
+        xp_os::unzip_url($zip_url, $data_dir, $plugin_dir);
+        return $res;
+    }
 }
