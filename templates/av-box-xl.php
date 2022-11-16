@@ -4,10 +4,10 @@ console.log('compo module loaded: <?php echo $name ?>');
 
 // HTML template
 let template = `
-<div class="compo <?php echo $name ?>">
-    <h3>Component <?php echo $name ?></h3>
-    <av-form-builder></av-form-builder>
+<div class="compo box <?php echo $name ?>">
     <av-toolbar></av-toolbar>
+    <av-form-builder></av-form-builder>
+    <av-read-list></av-read-list>
 </div>
 `;
 
