@@ -9,9 +9,13 @@ let template = `
     <div>
         <form @submit.prevent="send_form($event)" enctype="multipart/form-data">
             <template v-for="input in inputs">
-                <textarea v-if="input.type=='textarea'" :placeholder="input.placeholder" rows="10" v-model="input.value"></textarea>
-                <input v-else-if="input.type=='file'" :type="input.type" :placeholder="input.placeholder" @change="updateFile(input, $event)">
-                <input v-else :type="input.type" :placeholder="input.placeholder" v-model="input.value">
+                <div class="info">
+                    <label v-if="input.label">{{ input.label }}</label>
+
+                    <textarea v-if="input.type=='textarea'" :placeholder="input.placeholder" rows="10" v-model="input.value"></textarea>
+                    <input v-else-if="input.type=='file'" :type="input.type" :placeholder="input.placeholder" @change="updateFile(input, $event)">
+                    <input v-else :type="input.type" :placeholder="input.placeholder" v-model="input.value">
+                </div>
             </template>
             <button type="submit">{{ af?.label_submit ?? 'SEND' }}</button>
             <pre class=".feedback">{{ feedback }}</pre>

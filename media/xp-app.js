@@ -8,6 +8,10 @@ let appData = {
             label: 'Home',
             value: 'home',
         },
+        'task_001': {
+            label: 'Project Starter',
+            value: 'task_001',
+        },
         'script': {
             label: 'Script',
             value: 'script',
@@ -50,7 +54,7 @@ let appData = {
                 value: '',
                 type: 'textarea',
                 placeholder: 'Code',
-            }, ],
+            },],
         },
         'script': {
             title: 'Script Form',
@@ -63,13 +67,13 @@ let appData = {
                 name: 'm',
                 value: 'script',
                 type: 'hidden',
-            },{
+            }, {
                 name: 'filename',
-                value: '', 
+                value: '',
                 placeholder: 'Filename',
             }, {
                 name: 'extension',
-                value: '', 
+                value: '',
                 placeholder: 'Extension',
             }, {
                 name: 'code',
@@ -80,7 +84,64 @@ let appData = {
                 name: 'upload',
                 placeholder: 'Upload',
                 type: 'file',
-            }, ],
+            },],
+        },
+        'task_001': {
+            title: 'Project Starter',
+            label_submit: 'SAVE OPTIONS',
+            inputs: [{
+                name: 'c',
+                value: 'admin',
+                type: 'hidden',
+            }, {
+                name: 'm',
+                value: 'script',
+                type: 'hidden',
+            }, {
+                name: 'pages',
+                label: 'Pages',
+                value: "home\nnews\nproducts\nservices\ncontact\ncredits",
+                type: 'textarea',
+                placeholder: 'enter your pages here',
+            }, {
+                label: 'Home Page',
+                value: 'home',
+                placeholder: 'HomePage',
+            }, {
+                name: 'blog_page',
+                label: 'Blog Page',
+                value: 'news',
+                placeholder: 'Blog Page',
+            }, {
+                name: 'menu_primary',
+                name: 'menu_primary',
+                label: 'Main Menu',
+                value: "home\nnews\nproducts\nservices\ncontact",
+                type: 'textarea',
+                placeholder: 'enter your main menu items here',
+            }, {
+                name: 'menu_secondary',
+                name: 'menu_secondary',
+                label: 'Footer Menu',
+                value: "home\nnews\nproducts\nservices\ncontact\ncredits",
+                type: 'textarea',
+                placeholder: 'enter your footer menu items here',
+            }, {
+                name: 'option_date_format',
+                label: 'Date Format',
+                value: 'd/m/Y H:i:s',
+                placeholder: 'Date Format',
+            }, {
+                name: 'comments',
+                label: 'Comments',
+                value: 'off',
+                placeholder: 'Comments',
+            }, {
+                name: 'avatars',
+                label: 'Avatars',
+                value: 'off',
+                placeholder: 'Avatars',
+            },],
         },
         'contact': {
             title: 'Contact Form',
@@ -95,18 +156,21 @@ let appData = {
                 type: 'hidden',
             }, {
                 name: 'name',
-                value: '', 
+                label: 'Name',
+                value: '',
                 placeholder: 'Name',
             }, {
                 name: 'email',
+                label: 'Email',
                 value: '',
                 placeholder: 'Email',
             }, {
                 name: 'message',
+                label: 'Message',
                 value: '',
                 type: 'textarea',
                 placeholder: 'Message',
-            }, ],
+            },],
         },
     },
     api_key: '',
@@ -116,7 +180,7 @@ let appData = {
     message: 'Vue is everywhere!'
 }
 
-let created = function() {
+let created = function () {
     console.log('created');
     // load json data from #appJson
     let appJson = document.getElementById('appJson');
@@ -131,7 +195,7 @@ let created = function() {
     let compos = appTemplate?.getAttribute("data-compos");
     if (compos) {
         compos = compos.split(' ');
-        compos.forEach(function(name) {
+        compos.forEach(function (name) {
             app.component(
                 'av-' + name,
                 vue.defineAsyncComponent(() => import(`${xp_url}/vue-compos.php?name=av-${name}&ext=.js`))
@@ -145,7 +209,7 @@ let created = function() {
     this.active_menu = this.menus['home'];
 }
 
-let mounted = function() {
+let mounted = function () {
     console.log('mounted');
 
     // add resize event listener
@@ -167,7 +231,7 @@ let mounted = function() {
 }
 
 let methods = {
-    async api(inputs, fd=null) {
+    async api(inputs, fd = null) {
         if (!this.api_url) {
             return;
         }
@@ -179,7 +243,7 @@ let methods = {
         for (const pair of formData.entries()) {
             console.log(`${pair[0]}, ${pair[1]}`);
         }
-        
+
         // add inputs to FormData
         for (let key in inputs) {
             formData.append(key, inputs[key]);
@@ -223,7 +287,7 @@ let methods = {
 
 // add vuejs app from CDN
 import * as vue
-from "./vue.esm-browser.prod.js";
+    from "./vue.esm-browser.prod.js";
 
 const compoApp = vue.defineComponent({
     template: "#appTemplate",

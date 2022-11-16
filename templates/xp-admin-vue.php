@@ -17,11 +17,18 @@
     }
 
     .appBox form>* {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        display: block;
+    }
+    .appBox form .info >* {
         margin: 0.5rem 0;
         padding: 0.5rem;
         width: 100%;
         display: block;
     }
+
     .appBox button {
         padding: 1rem;
     }
@@ -140,10 +147,14 @@
             </div>
             <div v-if="options_ui.show_api_config">
                 <form>
-                    <h3>api url</h3>
-                    <input type="text" v-model="api_url">
-                    <h3>api key</h3>
-                    <input type="password" v-model="api_key">
+                    <div class="info">
+                        <h3>api url</h3>
+                        <input type="text" v-model="api_url">
+                    </div>
+                    <div class="info">
+                        <h3>api key</h3>
+                        <input type="password" v-model="api_key">                        
+                    </div>
                 </form>
             </div>
         </aside>
