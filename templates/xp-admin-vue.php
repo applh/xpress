@@ -6,6 +6,7 @@
     .appBox {
         background-color: #eee;
         padding: 2rem;
+        padding-bottom: 8rem;
     }
 
     .appBox form {
@@ -20,6 +21,9 @@
         padding: 0.5rem;
         width: 100%;
         display: block;
+    }
+    .appBox button {
+        padding: 1rem;
     }
 
     /* grid 2 columns 200px - */
@@ -56,6 +60,44 @@
         text-decoration: none;
         display: inline-block;
         padding: 1rem;
+        color: #000;
+    }
+    .appBox .menu-bottom {
+        position:fixed;
+        bottom:0;
+        left:0;
+        width:100%;
+        background-color: rgba(0,0,0,0.8);
+        color: #fff;
+        padding: 1rem;
+        z-index: 100;
+    }
+    .appBox .menu-bottom a {
+        color: #fff;
+    }
+    .appBox .popup {
+        position:fixed;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 200;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .appBox .popup > * {
+        width: 100%;
+        display: block;
+        text-align: center;
+    }
+    .popup .message {
+        background-color: #fff;
+        padding: 1rem;
+        margin: 1rem;
+        border-radius: 0.5rem;
     }
 </style>
 <!-- JSON DATA -->
@@ -73,12 +115,27 @@
         <av-box-md v-else-if="window_w < 1200"></av-box-md>
         <av-box-lg v-else-if="window_w < 1600"></av-box-lg>
         <av-box-xl v-else></av-box-xl>
-        <p class="pad4">{{ message }}</p>
         <aside>
+            <div class="menu-bottom">
+                <nav>
+                   <a href="#">XPress</a> 
+                </nav>
+                </nav>
+            </div>
+            <div class="popup" v-if="options_ui.show_popup">
+                <pre class="pad4 message">{{ message }}</pre>
+                <div>
+                    <button @click.prevent="options_ui.show_popup=false">close</button>
+                </div>
+            </div>
             <div>
                 <label>
                     <span>api config</span>
                     <input type="checkbox" v-model="options_ui.show_api_config">
+                </label>
+                <label>
+                    <span>show popup</span>
+                    <input type="checkbox" v-model="options_ui.show_popup">
                 </label>
             </div>
             <div v-if="options_ui.show_api_config">
