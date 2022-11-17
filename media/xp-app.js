@@ -103,16 +103,17 @@ let appData = {
                 type: 'hidden',
             }, {
                 name: 'pages',
-                label: 'Pages',
+                label: 'Pages (urls)',
                 value: "home\nnews\nproducts\nservices\ncontact\ncredits",
                 type: 'textarea',
                 placeholder: 'enter your pages here',
             }, {
+                name: 'option_page_on_front',
                 label: 'Home Page',
                 value: 'home',
                 placeholder: 'HomePage',
             }, {
-                name: 'blog_page',
+                name: 'option_page_for_posts',
                 label: 'Blog Page',
                 value: 'news',
                 placeholder: 'Blog Page',
@@ -131,20 +132,40 @@ let appData = {
                 type: 'textarea',
                 placeholder: 'enter your footer menu items here',
             }, {
+                name: 'option_blogname',
+                label: 'Blog Name',
+                value: '',
+                placeholder: 'Blog Name',
+            }, {
+                name: 'option_blogdescription',
+                label: 'Blog Description',
+                value: '',
+                placeholder: 'Blog Description',
+            }, {
+                name: 'option_blog_public',
+                label: 'Open to search engines (SEO)',
+                value: 'on',
+                placeholder: 'Open to search engines (SEO)',
+            }, {
                 name: 'option_date_format',
                 label: 'Date Format',
-                value: 'd/m/Y H:i:s',
+                value: 'd/m/Y',
                 placeholder: 'Date Format',
             }, {
-                name: 'comments',
-                label: 'Comments',
+                name: 'option_time_format',
+                label: 'Time Format',
+                value: 'H:i',
+                placeholder: 'Time Format',
+            }, {
+                name: 'option_comments',
+                label: 'Comments (x3)',
                 value: 'off',
                 placeholder: 'Comments',
             }, {
-                name: 'avatars',
-                label: 'Avatars',
+                name: 'option_show_avatars',
+                label: 'Show Avatars',
                 value: 'off',
-                placeholder: 'Avatars',
+                placeholder: 'Show Avatars',
             },],
         },
         'user_key': {

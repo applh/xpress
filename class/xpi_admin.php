@@ -170,6 +170,122 @@ class xpi_admin
     {
         $res = "(...)";
 
+        // blog name
+        // $blog_name = get_bloginfo('name');
+        $option_blogname =$_REQUEST['option_blogname'] ?? "";
+        $option_blogname = trim($option_blogname);
+        if ($option_blogname) {
+            update_option('blogname', $option_blogname);
+        }
+
+        // blog description
+        // $blog_description = get_bloginfo('description');
+        $option_blogdescription =$_REQUEST['option_blogdescription'] ?? "";
+        $option_blogdescription = trim($option_blogdescription);
+        if ($option_blogdescription) {
+            update_option('blogdescription', $option_blogdescription);
+        }
+
+        // date format
+        $option_date_format = $_REQUEST["option_date_format"] ?? "d/m/Y";
+        // TODO: isolate WP code for later separation
+        update_option("date_format", $option_date_format);
+
+        // time format
+        $option_time_format = $_REQUEST["option_time_format"] ?? "H:i";
+        update_option("time_format", $option_time_format);
+
+        // 'default_pingback_flag',
+		// 'default_ping_status',
+		// 'default_comment_status',
+        // option comments
+        $option_comments = $_REQUEST["option_comments"] ?? "off";
+        if ($option_comments == "off") {
+            update_option("default_pingback_flag", "0");
+            update_option("default_ping_status", "closed");
+            update_option("default_comment_status", "closed");
+        }
+        else {
+            update_option("default_pingback_flag", "1");
+            update_option("default_ping_status", "open");
+            update_option("default_comment_status", "open");
+        }
+
+
+        // 'show_avatars',
+        $option_show_avatars = $_REQUEST["option_show_avatars"] ?? "off";
+        if ($option_show_avatars == "off") {
+            update_option("show_avatars", "0");
+        }
+        else {
+            update_option("show_avatars", "1");
+        }
+
+        // 'blog_public',
+        $option_blog_public = $_REQUEST["option_blog_public"] ?? "off";
+        if ($option_blog_public == "off") {
+            update_option("blog_public", "0");
+        }
+        else {
+            update_option("blog_public", "1");
+        }
+
+        // build the pages
+        $pages = $_REQUEST["pages"] ?? "";
+        $pages = trim($pages);
+        if ($pages) {
+            $page_list = explode("\n", $pages);
+            foreach ($page_list as $index => $page) {
+                $page = trim($page);
+                if ($page) {
+                    // sanitize page
+                    $page = preg_replace('/[^a-z0-9\-]/i', '', $page);
+                    //  to lower
+                    $page = strtolower($page);
+
+                    // check if page exists
+                    $page_found = get_page_by_path($page);
+                    $page_id = 0;
+                    if (empty($page_found)) {
+                        // create page
+                        $page_id = wp_insert_post([
+                            'post_title' => $page,
+                            'post_name' => $page,
+                            'post_type' => 'page',
+                            'post_status' => 'publish',
+                            // 'comment_status' => 'closed',
+                            // 'ping_status' => 'closed',
+                        ]);
+                    }
+
+                    header("X-Xp-Debug-page-$index: $page_id/$page");
+
+                }
+            }
+
+        }
+
+        // option_page_on_front
+        $option_page_on_front = $_REQUEST["option_page_on_front"] ?? "";
+        $option_page_on_front = trim($option_page_on_front);
+        if ($option_page_on_front) {
+            $page_found = get_page_by_path($option_page_on_front);
+            if (!empty($page_found)) {
+                header("X-Xp-Debug-page_on_front: $page_found->ID/$option_page_on_front");
+                update_option("page_on_front", $page_found->ID);
+                update_option("show_on_front", "page");
+            }
+        }
+        // option_page_for_posts
+        $option_page_for_posts = $_REQUEST["option_page_for_posts"] ?? "";
+        $option_page_for_posts = trim($option_page_for_posts);
+        if ($option_page_for_posts) {
+            $page_found = get_page_by_path($option_page_for_posts);
+            if (!empty($page_found)) {
+                header("X-Xp-Debug-page_for_posts: $page_found->ID/$option_page_for_posts");
+                update_option("page_for_posts", $page_found->ID);
+            }
+        }
         return $res;
     }
 }
