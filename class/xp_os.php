@@ -68,30 +68,34 @@ class xp_os
         return $feedback;
     }
 
-    static function media_zip($state="")
+    static function media_zip($ext, $state="")
     {
-        static $zip = null;
+        static $zips = [];
+        $zip = $zips[$ext] ?? null;
 
         if ($zip == null) {
 
             // plugin xp-data dir
             $xp_data_dir = xp_os::get_dir("../xpress-data");
-
-            // find files in media dir with name media-*.zip
-            $files = glob($xp_data_dir . "/media-*.zip");
+            // check if zip file exists with name media-%RANDOM-MD5%.zip
+            $files = glob($xp_data_dir . "/media-$ext-*.zip");
             // if no files found create a new one with name media-%RANDOM-MD5%.zip
-            $zip = null;
             if (count($files) == 0) {
                 $random_tag = md5(password_hash(uniqid(), PASSWORD_DEFAULT));
-                $zip_file = $xp_data_dir . "/media-$random_tag.zip";
+                $zip_file = $xp_data_dir . "/media-$ext-$random_tag.zip";
             }
-            // else get the last file
             else {
+                // get the last file found
                 $zip_file = $files[count($files) - 1];
             }
+            // header debug
+            // header("X-Xp-Debug-script: $zip_file");
             // create zip file
             $zip = new ZipArchive();
             $zip->open($zip_file, ZipArchive::CREATE);
+
+            // add zip file to zips
+            $zips[$ext] = $zip;
         }
         else {
             // if state is false close zip file
@@ -193,7 +197,7 @@ class xp_os
                 }
             }
         }
-        
+         
         return $list_files;
     }
 }

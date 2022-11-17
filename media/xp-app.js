@@ -20,9 +20,9 @@ let appData = {
             label: 'Script',
             value: 'script',
         },
-        'contact': {
-            label: 'Contact',
-            value: 'contact',
+        'user_email': {
+            label: 'Email',
+            value: 'user_email',
         },
     },
     options_ui: {},
@@ -197,29 +197,36 @@ let appData = {
                 placeholder: 'Expiration Time',
             },],
         },
-        'contact': {
-            title: 'Contact Form',
-            label_submit: 'SEND CONTACT FORM',
+        'user_email': {
+            title: 'User Email',
+            label_submit: 'SEND EMAIL',
             inputs: [{
                 name: 'c',
-                value: 'public',
+                value: 'user',
                 type: 'hidden',
             }, {
                 name: 'm',
-                value: 'test',
+                value: 'mail',
                 type: 'hidden',
             }, {
-                name: 'name',
-                label: 'Name',
+                name: 'from',
+                label: 'From',
                 value: '',
-                placeholder: 'Name',
+                placeholder: 'From',
+                type: 'email',
             }, {
-                name: 'email',
-                label: 'Email',
+                name: 'to',
+                label: 'To',
                 value: '',
-                placeholder: 'Email',
+                placeholder: 'To',
+                type: 'email',
             }, {
-                name: 'message',
+                name: 'subject',
+                label: 'Subject',
+                value: '',
+                placeholder: 'Subject',
+            }, {
+                name: 'body',
                 label: 'Message',
                 value: '',
                 type: 'textarea',

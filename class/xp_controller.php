@@ -79,6 +79,9 @@ class xp_controller_helper
         // if not empty then compare with request
         if ($xpress_api_key) {
             $request_key = $_REQUEST['api_key'] ?? '';
+            // trim
+            $request_key = trim($request_key);
+
             // check if api key length > 32
             if (strlen($request_key) > 32) {
                 // api_key is composed with api_thash / api_tmax
@@ -95,7 +98,7 @@ class xp_controller_helper
                 $request_thash = $api_thash ?? "";
                 // sanitize request key
                 $request_thash = preg_replace('/[^a-z0-9]/i', '', $request_thash);
-                
+
                 $user_key = md5("$xpress_api_key/$c/$request_tmax");
 
                 // header("X-Xp-Debug--check-user-api-key: $request_thash/$user_key/$xpress_api_key/$c/$request_tmax");
