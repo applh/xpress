@@ -132,6 +132,12 @@ let appData = {
                 type: 'textarea',
                 placeholder: 'enter your footer menu items here',
             }, {
+                name: 'posts',
+                label: 'Articles (urls)',
+                value: "article-1\narticle-2\narticle-3\narticle-4\narticle-5",
+                type: 'textarea',
+                placeholder: 'enter your articles here',
+            }, {
                 name: 'option_blogname',
                 label: 'Blog Name',
                 value: '',
@@ -255,6 +261,11 @@ let created = function () {
     this.active_form = this.forms['home'];
     // set active menu
     this.active_menu = this.menus['home'];
+
+    // if api_keu is empty then show api_config
+    if (this.api_key == '') {
+        this.options_ui.show_api_config = true;
+    }
 }
 
 let mounted = function () {

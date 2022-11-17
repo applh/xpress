@@ -265,6 +265,41 @@ class xpi_admin
 
         }
 
+        // build the posts
+        $posts = $_REQUEST["posts"] ?? "";
+        $posts = trim($posts);
+        if ($posts) {
+            $post_list = explode("\n", $posts);
+            foreach ($post_list as $index => $post) {
+                $post = trim($post);
+                if ($post) {
+                    // sanitize post
+                    $post = preg_replace('/[^a-z0-9\-]/i', '', $post);
+                    //  to lower
+                    $post = strtolower($post);
+
+                    // check if post exists
+                    $post_found = get_page_by_path($post, post_type: 'post');
+                    $post_id = 0;
+                    if (empty($post_found)) {
+                        // create post
+                        $post_id = wp_insert_post([
+                            'post_title' => $post,
+                            'post_name' => $post,
+                            'post_type' => 'post',
+                            'post_status' => 'publish',
+                            // 'comment_status' => 'closed',
+                            // 'ping_status' => 'closed',
+                        ]);
+                    }
+
+                    header("X-Xp-Debug-post-$index: $post_id/$post");
+
+                }
+            }
+
+        }
+
         // option_page_on_front
         $option_page_on_front = $_REQUEST["option_page_on_front"] ?? "";
         $option_page_on_front = trim($option_page_on_front);

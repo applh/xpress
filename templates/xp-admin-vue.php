@@ -22,7 +22,8 @@
         width: 100%;
         display: block;
     }
-    .appBox form .info >* {
+
+    .appBox form .info>* {
         margin: 0.5rem 0;
         padding: 0.5rem;
         width: 100%;
@@ -69,37 +70,42 @@
         padding: 1rem;
         color: #000;
     }
+
     .appBox .menu-bottom {
-        position:fixed;
-        bottom:0;
-        left:0;
-        width:100%;
-        background-color: rgba(0,0,0,0.8);
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
         color: #fff;
         padding: 1rem;
         z-index: 100;
     }
+
     .appBox .menu-bottom a {
         color: #fff;
     }
+
     .appBox .popup {
-        position:fixed;
-        top:0;
-        left:0;
-        width:100%;
-        height:100%;
-        background-color: rgba(0,0,0,0.5);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
         z-index: 200;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-wrap: wrap;
     }
-    .appBox .popup > * {
+
+    .appBox .popup>* {
         width: 100%;
         display: block;
         text-align: center;
     }
+
     .popup .message {
         background-color: #fff;
         padding: 1rem;
@@ -125,37 +131,35 @@
         <aside>
             <div class="menu-bottom">
                 <nav>
-                   <a href="#">XPress</a> 
+                    <a href="#">XPress</a>
+                    <label>
+                        <span>api config</span>
+                        <input type="checkbox" v-model="options_ui.show_api_config">
+                    </label>
+                    <label>
+                        <span>show popup</span>
+                        <input type="checkbox" v-model="options_ui.show_popup">
+                    </label>
                 </nav>
-                </nav>
+                <div v-if="options_ui.show_api_config">
+                    <form>
+                        <div class="info">
+                            <h3>api key</h3>
+                            <input type="password" v-model="api_key">
+                        </div>
+                        <div class="info">
+                            <h3>api url</h3>
+                            <input type="text" v-model="api_url">
+                        </div>
+                    </form>
+                </div>
+
             </div>
             <div class="popup" v-if="options_ui.show_popup">
                 <pre class="pad4 message">{{ message }}</pre>
                 <div>
                     <button @click.prevent="options_ui.show_popup=false">close</button>
                 </div>
-            </div>
-            <div>
-                <label>
-                    <span>api config</span>
-                    <input type="checkbox" v-model="options_ui.show_api_config">
-                </label>
-                <label>
-                    <span>show popup</span>
-                    <input type="checkbox" v-model="options_ui.show_popup">
-                </label>
-            </div>
-            <div v-if="options_ui.show_api_config">
-                <form>
-                    <div class="info">
-                        <h3>api url</h3>
-                        <input type="text" v-model="api_url">
-                    </div>
-                    <div class="info">
-                        <h3>api key</h3>
-                        <input type="password" v-model="api_key">                        
-                    </div>
-                </form>
             </div>
         </aside>
     </section>
