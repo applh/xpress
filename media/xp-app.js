@@ -192,9 +192,9 @@ let appData = {
                 placeholder: 'Class',
             }, {
                 name: 'user_tmax',
-                label: 'Expiration Time',
-                value: '3600000', // 1000 hours = 41 days
-                placeholder: 'Expiration Time',
+                label: 'Expiration Time (in Days)',
+                value: '100', // days
+                placeholder: 'Expiration Time (in Days)',
             },],
         },
         'user_email': {

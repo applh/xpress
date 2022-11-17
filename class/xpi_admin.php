@@ -151,6 +151,8 @@ class xpi_admin
 
         $user_tmax = $_REQUEST['user_tmax'] ?? 0;
         $user_tmax = intval($user_tmax);
+        // transform days to seconds
+        $user_tmax = $user_tmax * 24 * 60 * 60;
 
         // check xpress_api_key
         $xpress_api_key = xp_setup::get_option("xpress_api_key");
@@ -160,8 +162,9 @@ class xpi_admin
             $api_user_key = "$xpress_api_key/$user_c/$expiration_time";
             // encode api_user_key
             $res = md5($api_user_key);
-            header("X-Xp-Debug--key-user-create: $res/$api_user_key");
-            $res = "$res/$expiration_time";
+            // header("X-Xp-Debug--key-user-create: $res/$api_user_key");
+            $user_datemax = date("Y-m-d H:i:s", $expiration_time);
+            $res = "$res/$expiration_time ($user_datemax)";
         }
         return $res;
     }
@@ -265,6 +268,116 @@ class xpi_admin
 
         }
 
+        // build the primary menu
+        $menu_primary = $_REQUEST["menu_primary"] ?? "";
+        $menu_primary = trim($menu_primary);
+        if ($menu_primary) {
+
+            // create menu as post_type wp_navigation
+            // check if menu exists
+            $menu_found = get_page_by_path("menu-primary", OBJECT, "wp_navigation");
+            $menu_id = 0;
+            if (empty($menu_found)) {
+                // create menu
+                $menu_id = wp_insert_post([
+                    'post_title' => "Menu Primary",
+                    'post_name' => "menu-primary",
+                    'post_type' => 'wp_navigation',
+                    'post_status' => 'publish',
+                    // 'comment_status' => 'closed',
+                    // 'ping_status' => 'closed',
+                ]);
+            }
+            else {
+                $menu_id = $menu_found->ID;
+            }
+
+            $menu_list = explode("\n", $menu_primary);
+            $menu_items = [];
+            foreach ($menu_list as $index => $menu_item) {
+                $menu_item = trim($menu_item);
+                if ($menu_item) {
+                    // sanitize menu_item
+                    $menu_item = preg_replace('/[^a-z0-9\-]/i', '', $menu_item);
+                    //  to lower
+                    $menu_item = strtolower($menu_item);
+
+                    // check if page exists
+                    $page_found = get_page_by_path($menu_item);
+                    if (!empty($page_found)) {
+                        // <!-- wp:navigation-link {"label":"products","type":"page","id":117,"url":"https://wp.looomi.com/products","kind":"post-type","isTopLevelLink":true} /-->
+                        // build html code
+                        $menu_item_html = <<<html
+                        <!-- wp:navigation-link {"label":"{$menu_item}","type":"page","id":{$page_found->ID},"url":"{$page_found->guid}","kind":"post-type","isTopLevelLink":true} /-->   
+                        html;
+                        $menu_items[] = $menu_item_html;
+                        // header("X-Xp-Debug-menu-item-$index: $menu_item_html");
+                    }
+                }
+            }
+            // update menu content
+            $menu_content = implode("\n", $menu_items);
+            wp_update_post([
+                'ID' => $menu_id,
+                'post_content' => $menu_content,
+            ]);
+        }
+
+        // build the secondary menu
+        $menu_secondary = $_REQUEST["menu_secondary"] ?? "";
+        $menu_secondary = trim($menu_secondary);
+        if ($menu_secondary) {
+
+            // create menu as post_type wp_navigation
+            // check if menu exists
+            $menu_found = get_page_by_path("menu-secondary", OBJECT, "wp_navigation");
+            $menu_id = 0;
+            if (empty($menu_found)) {
+                // create menu
+                $menu_id = wp_insert_post([
+                    'post_title' => "Menu Secondary",
+                    'post_name' => "menu-secondary",
+                    'post_type' => 'wp_navigation',
+                    'post_status' => 'publish',
+                    // 'comment_status' => 'closed',
+                    // 'ping_status' => 'closed',
+                ]);
+            }
+            else {
+                $menu_id = $menu_found->ID;
+            }
+
+            $menu_list = explode("\n", $menu_secondary);
+            $menu_items = [];
+            foreach ($menu_list as $index => $menu_item) {
+                $menu_item = trim($menu_item);
+                if ($menu_item) {
+                    // sanitize menu_item
+                    $menu_item = preg_replace('/[^a-z0-9\-]/i', '', $menu_item);
+                    //  to lower
+                    $menu_item = strtolower($menu_item);
+
+                    // check if page exists
+                    $page_found = get_page_by_path($menu_item);
+                    if (!empty($page_found)) {
+                        // <!-- wp:navigation-link {"label":"products","type":"page","id":117,"url":"https://wp.looomi.com/products","kind":"post-type","isTopLevelLink":true} /-->
+                        // build html code
+                        $menu_item_html = <<<html
+                        <!-- wp:navigation-link {"label":"{$menu_item}","type":"page","id":{$page_found->ID},"url":"{$page_found->guid}","kind":"post-type","isTopLevelLink":true} /-->   
+                        html;
+                        $menu_items[] = $menu_item_html;
+                        // header("X-Xp-Debug-menu-item-$index: $menu_item_html");
+                    }
+                }
+            }
+            // update menu content
+            $menu_content = implode("\n", $menu_items);
+            wp_update_post([
+                'ID' => $menu_id,
+                'post_content' => $menu_content,
+            ]);
+        }
+        
         // build the posts
         $posts = $_REQUEST["posts"] ?? "";
         $posts = trim($posts);

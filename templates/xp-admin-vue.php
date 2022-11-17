@@ -107,6 +107,7 @@
     }
 
     .popup .message {
+        color:#000;
         background-color: #fff;
         padding: 1rem;
         margin: 1rem;
@@ -130,17 +131,6 @@
         <av-box-xl v-else></av-box-xl>
         <aside>
             <div class="menu-bottom">
-                <nav>
-                    <a href="#">XPress</a>
-                    <label>
-                        <span>api config</span>
-                        <input type="checkbox" v-model="options_ui.show_api_config">
-                    </label>
-                    <label>
-                        <span>show popup</span>
-                        <input type="checkbox" v-model="options_ui.show_popup">
-                    </label>
-                </nav>
                 <div v-if="options_ui.show_api_config">
                     <form>
                         <div class="info">
@@ -153,13 +143,24 @@
                         </div>
                     </form>
                 </div>
-
-            </div>
-            <div class="popup" v-if="options_ui.show_popup">
-                <pre class="pad4 message">{{ message }}</pre>
-                <div>
-                    <button @click.prevent="options_ui.show_popup=false">close</button>
+                <nav>
+                    <a href="#">XPress</a>
+                    <label>
+                        <span>api config</span>
+                        <input type="checkbox" v-model="options_ui.show_api_config">
+                    </label>
+                    <label>
+                        <span>show popup</span>
+                        <input type="checkbox" v-model="options_ui.show_popup">
+                    </label>
+                </nav>
+                <div class="popup" v-if="options_ui.show_popup">
+                    <pre class="pad4 message">{{ message }}</pre>
+                    <div>
+                        <button @click.prevent="options_ui.show_popup=false">close</button>
+                    </div>
                 </div>
+
             </div>
         </aside>
     </section>
