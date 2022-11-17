@@ -150,7 +150,8 @@ class xpi_admin
         $user_c = preg_replace('/[^a-z0-9_]/i', '', $user_c);
 
         $user_tmax = $_REQUEST['user_tmax'] ?? 0;
-        $user_tmax = intval($user_tmax);
+        // can be useful to test short expiration time
+        $user_tmax = floatval($user_tmax);
         // transform days to seconds
         $user_tmax = $user_tmax * 24 * 60 * 60;
 
@@ -377,7 +378,7 @@ class xpi_admin
                 'post_content' => $menu_content,
             ]);
         }
-        
+
         // build the posts
         $posts = $_REQUEST["posts"] ?? "";
         $posts = trim($posts);

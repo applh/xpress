@@ -7,7 +7,15 @@
 
 ### API FEATURES
 
-* Send emails
+* Easy start project with basics setup done
+  * pages creation
+  * menus creation
+  * options setup
+    * home page
+    * blog page
+    * comments off
+    * ...
+* Send emails (by user api_key with expiration date)
 * Store files
 * Upgrade plugin directly from the github.com repository
 * Update the plugin from a zip file
@@ -30,3 +38,22 @@
 * PHP has the powerful feature of spl_autoload_register 
 * to load classes only when needed
 
+### DEVELOPER LOCAL HELPERS
+
+* When developing locally, there's no mail server 
+* Trying to send emails by PHP function mail() will fail
+* To help developers, XPress provides an API mail server
+* You can open your online WP site as an API mail server 
+* and then send emails from your local machine by sending easy POST requests
+  * from
+  * to
+  * subject
+  * body
+
+* API security is provided by POST parameters
+  * c=user
+  * m=email
+  * api_key=MD5_KEY/EXPIRATION_TIME
+
+* There's an easy form to create these User API keys
+  * Choose the validity period (in days)

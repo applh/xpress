@@ -18,7 +18,7 @@ let template = `
                 </div>
             </template>
             <button type="submit">{{ af?.label_submit ?? 'SEND' }}</button>
-            <pre class=".feedback">{{ feedback }}</pre>
+            <pre class="feedback">{{ feedback }}</pre>
         </form>
     </div>
 </div>

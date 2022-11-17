@@ -5,7 +5,8 @@ console.log('compo module loaded: <?php echo $name ?>');
 // HTML template
 let template = `
 <div class="compo <?php echo $name ?>">
-    <h3>Component <?php echo $name ?></h3>
+    <h3 v-if="title">{{ title }}</h3>
+
 </div>
 `;
 

@@ -14,6 +14,7 @@
         flex-direction: column;
         max-width: 800px;
         flex-wrap: wrap;
+        margin: 0 auto;
     }
 
     .appBox form>* {
@@ -44,6 +45,11 @@
         grid-template-rows: repeat(10, 1fr);
     }
 
+    .av-toolbar {
+        grid-column: 1 / span 2;
+        grid-row: 1 / span 5;
+    }
+
     .av-form-builder {
         grid-column: 3 / span 6;
         grid-row: 1 / span 2;
@@ -63,12 +69,18 @@
         list-style: none;
         padding: 0;
     }
-
+    .appBox ul li {
+        margin: 0;
+    }
     .appBox nav a {
         text-decoration: none;
         display: inline-block;
-        padding: 1rem;
+        padding: 0.5rem;
         color: #000;
+    }
+
+    .appBox nav a:hover {
+        background-color: #ccc;
     }
 
     .appBox .menu-bottom {
@@ -78,12 +90,21 @@
         width: 100%;
         background-color: rgba(0, 0, 0, 0.8);
         color: #fff;
-        padding: 1rem;
+        padding: 0rem;
         z-index: 100;
     }
 
-    .appBox .menu-bottom a {
+    .appBox .menu-bottom a,
+    .appBox .menu-bottom h2,
+    .appBox .menu-bottom h3 {
         color: #fff;
+    }
+
+    .appBox h1,
+    .appBox h2,
+    .appBox h3,
+    .appBox h4 {
+        text-align: center;
     }
 
     .appBox .popup {
@@ -92,8 +113,8 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 200;
+        background-color: rgba(0, 0, 0, 0.8);
+        z-index: 999999 !important;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -107,11 +128,19 @@
     }
 
     .popup .message {
-        color:#000;
+        color: #000;
         background-color: #fff;
         padding: 1rem;
         margin: 1rem;
         border-radius: 0.5rem;
+    }
+
+    #adminmenuwrap {
+        z-index: 99;
+    }
+
+    .appBox .feedback {
+        padding: 1rem 0;
     }
 </style>
 <!-- JSON DATA -->
