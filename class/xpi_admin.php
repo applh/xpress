@@ -140,4 +140,36 @@ class xpi_admin
         }
         return $list;
     }
+
+    static function key_user_create ()
+    {
+        $res = "";
+
+        $user_c = $_REQUEST['user_c'] ?? "user";
+        // sanitize user_c
+        $user_c = preg_replace('/[^a-z0-9_]/i', '', $user_c);
+
+        $user_tmax = $_REQUEST['user_tmax'] ?? 0;
+        $user_tmax = intval($user_tmax);
+
+        // check xpress_api_key
+        $xpress_api_key = xp_setup::get_option("xpress_api_key");
+        if ($xpress_api_key && $user_c && ($user_tmax > 0)) {
+            $expiration_time = time() + $user_tmax;
+            // compose the api_user_key with xpress_api_key / user_c / user_tmax
+            $api_user_key = "$xpress_api_key/$user_c/$expiration_time";
+            // encode api_user_key
+            $res = md5($api_user_key);
+            header("X-Xp-Debug--key-user-create: $res/$api_user_key");
+            $res = "$res/$expiration_time";
+        }
+        return $res;
+    }
+
+    static function task_001 ()
+    {
+        $res = "(...)";
+
+        return $res;
+    }
 }

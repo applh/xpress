@@ -71,4 +71,14 @@ class xp_setup
         require __DIR__ . "/../templates/plugin-admin.php";
     }
 
+    static function get_option ($name, $default='')
+    {
+        if (function_exists("get_option")) {
+            $res = get_option($name);
+        }
+        else {
+            $res = $default;
+        }
+        return $res;
+    }
 }

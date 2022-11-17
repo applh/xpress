@@ -12,6 +12,10 @@ let appData = {
             label: 'Project Starter',
             value: 'task_001',
         },
+        'user_key': {
+            label: 'User Key',
+            value: 'user_key',
+        },
         'script': {
             label: 'Script',
             value: 'script',
@@ -95,7 +99,7 @@ let appData = {
                 type: 'hidden',
             }, {
                 name: 'm',
-                value: 'script',
+                value: 'task_001',
                 type: 'hidden',
             }, {
                 name: 'pages',
@@ -141,6 +145,29 @@ let appData = {
                 label: 'Avatars',
                 value: 'off',
                 placeholder: 'Avatars',
+            },],
+        },
+        'user_key': {
+            title: 'Create User Key',
+            label_submit: 'CREATE USER KEY',
+            inputs: [{
+                name: 'c',
+                value: 'admin',
+                type: 'hidden',
+            }, {
+                name: 'm',
+                value: 'key_user_create',
+                type: 'hidden',
+            }, {
+                name: 'user_c',
+                label: 'Class',
+                value: 'user',
+                placeholder: 'Class',
+            }, {
+                name: 'user_tmax',
+                label: 'Expiration Time',
+                value: '3600000', // 1000 hours = 41 days
+                placeholder: 'Expiration Time',
             },],
         },
         'contact': {
