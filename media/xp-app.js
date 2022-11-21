@@ -5,10 +5,6 @@ let appData = {
     posts: [],
     active_menu: null,
     menus: {
-        'home': {
-            label: 'Home',
-            value: 'home',
-        },
         'task_001': {
             label: 'Project Starter',
             value: 'task_001',
@@ -25,6 +21,10 @@ let appData = {
             label: 'Script',
             value: 'script',
         },
+        'api_request': {
+            label: 'API request',
+            value: 'api_request',
+        },
         'user_email': {
             label: 'Email',
             value: 'user_email',
@@ -34,8 +34,8 @@ let appData = {
     app_json: {},
     active_form: null,
     forms: {
-        'home': {
-            title: 'Home Form',
+        'api_request': {
+            title: 'api Request Form',
             label_submit: 'SEND API REQUEST',
             inputs: [{
                 name: 'api_url',
@@ -331,9 +331,9 @@ let created = function () {
     }
 
     // set active form
-    this.active_form = this.forms['home'];
+    this.active_form = this.forms['task_001'];
     // set active menu
-    this.active_menu = this.menus['home'];
+    this.active_menu = this.menus['task_001'];
 
     // if api_keu is empty then show api_config
     if (this.api_key == '') {
