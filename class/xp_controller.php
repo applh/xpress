@@ -29,6 +29,12 @@ class xp_controller
 
 }
 
+/**
+ * TODO: centralize keys in 3 formats
+ * md5_admin_key
+ * md5_admin_hash/maxtime with md5_admin_hash=md5(md5_admin_key+maxtime)
+ * md5_user_hash/maxtime with md5_user_hash=md5(md5_admin_key+maxtime+class)
+ */
 class xp_controller_helper
 {
     static function check_api_key ()

@@ -47,17 +47,17 @@
 
     .av-toolbar {
         grid-column: 1 / span 2;
-        grid-row: 1 / span 5;
+        grid-row: 1 / span 1;
     }
 
     .av-form-builder {
         grid-column: 3 / span 6;
-        grid-row: 1 / span 2;
+        grid-row: 1 / span 1;
     }
 
     .av-read-list {
-        grid-column: 3 / span 6;
-        grid-row: 3 / span 6;
+        grid-column: 1 / span 10;
+        grid-row: 2 / span 6;
     }
 
     .appBox label span {
@@ -141,6 +141,21 @@
 
     .appBox .feedback {
         padding: 1rem 0;
+    }
+
+    .av-read-list table {
+        width: 100%;
+    }
+    .av-read-list table td {
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+    }
+    .av-read-list table textarea {
+        width: 100%;
+    }
+    .av-read-list button {
+        display: block;
+        width: 100%;
     }
 </style>
 <!-- JSON DATA -->

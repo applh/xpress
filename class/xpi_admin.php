@@ -2,6 +2,33 @@
 
 class xpi_admin
 {
+    static function posts_read ()
+    {
+        // get post_type
+        $post_type = $_REQUEST['post_type'] ?? '';
+        // sanitize post_type
+        $post_type = preg_replace('/[^a-z0-9-_]/i', '', $post_type);
+
+        // check if post_type is not empty
+        if ($post_type) {
+            // get posts
+            $posts = get_posts([
+                'post_type' => $post_type,
+                'post_status' => 'publish',
+                'numberposts' => -1,
+                'orderby' => 'ID',
+                'order' => 'DESC',
+            ]);
+
+            // store posts in api_data
+            xp_os::api_data('posts', $posts);
+        }
+
+        // return posts
+        return "posts read ($post_type)";
+
+    }
+
     static function script ()
     {
         // isolate WP code for later separation

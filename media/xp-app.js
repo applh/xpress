@@ -2,6 +2,7 @@ console.log('hello');
 
 // store my reactive data
 let appData = {
+    posts: [],
     active_menu: null,
     menus: {
         'home': {
@@ -11,6 +12,10 @@ let appData = {
         'task_001': {
             label: 'Project Starter',
             value: 'task_001',
+        },
+        'task_002': {
+            label: 'Posts',
+            value: 'task_002',
         },
         'user_key': {
             label: 'User Key',
@@ -88,6 +93,24 @@ let appData = {
                 name: 'upload',
                 placeholder: 'Upload',
                 type: 'file',
+            },],
+        },
+        'task_002': {
+            title: 'Posts Form',
+            label_submit: 'LIST POSTS',
+            post_processing: 'refresh_posts',
+            inputs: [{
+                name: 'c',
+                value: 'admin',
+                type: 'hidden',
+            }, {
+                name: 'm',
+                value: 'posts_read',
+                type: 'hidden',
+            }, {
+                name: 'post_type',
+                value: 'page',
+                placeholder: 'Post Type',
             },],
         },
         'task_001': {
@@ -297,6 +320,20 @@ let mounted = function () {
 }
 
 let methods = {
+    api_after(r, post_processing) {
+        console.log('api_after ' + post_processing);
+        if (post_processing == 'refresh_posts') {
+            console.log(r);
+            if (r?.data?.posts) {
+                this.posts = r.data.posts;
+                console.log(this.posts);
+            }
+            else {
+                // empty the posts to refresh the view
+                this.posts = [];
+            }
+        }
+    },
     async api(inputs, fd = null) {
         if (!this.api_url) {
             return;

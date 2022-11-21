@@ -19,6 +19,7 @@ class xp_os
 
         // check callback
         $infos['feedback'] = xp_os::api_callback() ?? "";
+        $infos["data"] = xp_os::api_data() ?? "";
 
         if (function_exists("wp_send_json")) {
             // debug header
@@ -35,6 +36,16 @@ class xp_os
         }
     }
 
+    static function api_data ($k=null, $v=null)
+    {
+        static $data = [];
+        // store value $v with $k key if $k and $v are not null
+        if ($k && $v) {
+            $data[$k] = $v;
+        }
+
+        return $data;
+    }
 
     static function api_callback()
     {

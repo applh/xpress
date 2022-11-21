@@ -79,6 +79,11 @@ export default {
             if (data.feedback) {
                 this.feedback = data.feedback;
             }
+            // check active form post_processing
+            if (this.af.post_processing) {
+                // call post_processing
+                this.avroot.api_after(data, this.af.post_processing);
+            }
         },
         test(msg = '') {
             console.log('HELLO FROM COMPO: ' + msg);
