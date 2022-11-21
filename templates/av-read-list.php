@@ -8,7 +8,7 @@ let template = `
     <h3 v-if="title">{{ title }}</h3>
     <input type="checkbox" v-model="options_ui.show_post_list">
     <div v-if="options_ui.show_post_list">
-        <av-form-builder form_name="posts_read"></av-form-builder>
+        <av-form-builder :form_name="form_name"></av-form-builder>
         <h3 v-if="posts.length > 0">nb found: {{ posts.length }}</h3>
         <table>
             <tr v-for="p in posts">
@@ -33,6 +33,10 @@ export default {
     template,
     inject: ['avroot'],
     props: {
+        form_name: {
+            type: String,
+            default: 'posts_read'
+        },
         title: {
             default:null,
         }

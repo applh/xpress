@@ -6,7 +6,7 @@ console.log('compo module loaded: <?php echo $name ?>');
 let template = `
 <div class="compo <?php echo $name ?>">
     <h3>Component <?php echo $name ?></h3>
-    <av-read-list form_name="posts_read"></av-read-list>
+    <av-read-list></av-read-list>
 </div>
 `;
 
