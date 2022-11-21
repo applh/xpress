@@ -2,6 +2,80 @@
 
 class xpi_admin
 {
+    static function posts_update ()
+    {
+        $feedback = "";
+
+        // get inputs post_type, post_id, post_title, post_content, post_status
+        $post_type = $_POST['post_type'] ?? 'post';
+        $post_id = $_POST['post_id'] ?? 0;
+        $post_title = $_POST['post_title'] ?? '';
+        $post_content = $_POST['post_content'] ?? '';
+        $post_status = $_POST['post_status'] ?? 'publish';
+
+        // sanitize inputs
+        $post_type = preg_replace('/[^a-z0-9-_]/i', '', $post_type);
+        $post_id = intval($post_id);
+        $post_status = preg_replace('/[^a-z0-9-_]/i', '', $post_status);
+
+        // check post_type
+        if ($post_type) {
+            // check post_id
+            if ($post_id) {
+                // update post
+                $post = [
+                    'ID' => $post_id,
+                    'post_title' => $post_title,
+                    'post_content' => $post_content,
+                    'post_status' => $post_status,
+                    'post_type' => $post_type,
+                ];
+                $post_id = wp_update_post($post);
+                $feedback = "Post updated ($post_id)";
+            }
+            // refresh post list
+            $posts = xp_post::read_list($post_type);
+            // store posts in api_data
+            xp_os::api_data('posts', $posts);
+            
+        }
+        return $feedback;
+    }
+
+    static function posts_create ()
+    {
+        $feedback = "";
+
+        // get inputs
+        $post_type = $_REQUEST['post_type'] ?? '';
+        $post_title = $_REQUEST['post_title'] ?? '';
+        $post_content = $_REQUEST['post_content'] ?? '';
+        $post_status = $_REQUEST['post_status'] ?? 'publish';
+
+        // sanitize inputs
+        $post_type = preg_replace('/[^a-z0-9-_]/i', '', $post_type);
+        $post_status = preg_replace('/[^a-z0-9-_]/i', '', $post_status);
+
+        // create post if post_type is not empty
+        if ($post_type) {
+            $post_id = wp_insert_post([
+                'post_type' => $post_type,
+                'post_title' => $post_title,
+                'post_content' => $post_content,
+                'post_status' => $post_status,
+            ]);
+            $feedback = "created ($post_id)";
+
+            // refresh post list
+            $posts = xp_post::read_list($post_type);
+            // store posts in api_data
+            xp_os::api_data('posts', $posts);
+
+        }
+
+        return $feedback;
+    }
+
     static function posts_delete ()
     {
         $feedback = "";
@@ -31,15 +105,8 @@ class xpi_admin
         $post_type = preg_replace('/[^a-z0-9-_]/i', '', $post_type);
         // check if post_type is not empty
         if ($post_type) {
-            // get posts
-            $posts = get_posts([
-                'post_type' => $post_type,
-                'post_status' => 'publish',
-                'numberposts' => -1,
-                'orderby' => 'ID',
-                'order' => 'DESC',
-            ]);
-
+            // refresh post list
+            $posts = xp_post::read_list($post_type);
             // store posts in api_data
             xp_os::api_data('posts', $posts);
         }
@@ -52,19 +119,17 @@ class xpi_admin
         $feedback = "";
         // get post_type
         $post_type = $_REQUEST['post_type'] ?? '';
-        // sanitize post_type
+        // post_status
+        $post_status = $_REQUEST['post_status'] ?? 'publish';
+
+        // sanitize post_type, post_status
         $post_type = preg_replace('/[^a-z0-9-_]/i', '', $post_type);
+        $post_status = preg_replace('/[^a-z0-9-_]/i', '', $post_status);
 
         // check if post_type is not empty
         if ($post_type) {
-            // get posts
-            $posts = get_posts([
-                'post_type' => $post_type,
-                'post_status' => 'publish',
-                'numberposts' => -1,
-                'orderby' => 'ID',
-                'order' => 'DESC',
-            ]);
+            // refresh post list
+            $posts = xp_post::read_list($post_type, $post_status);
 
             // store posts in api_data
             xp_os::api_data('posts', $posts);

@@ -14,8 +14,12 @@ let appData = {
             value: 'task_001',
         },
         'task_002': {
-            label: 'Posts',
+            label: 'Posts (R/U/D)',
             value: 'task_002',
+        },
+        'task_003': {
+            label: 'Posts (C)',
+            value: 'task_003',
         },
         'user_key': {
             label: 'User Key',
@@ -95,8 +99,35 @@ let appData = {
                 type: 'file',
             },],
         },
+        'task_003': {
+            title: 'Posts Form (Create)',
+            label_submit: 'CREATE POST',
+            post_processing: 'refresh_posts',
+            inputs: [{
+                name: 'c',
+                value: 'admin',
+                type: 'hidden',
+            }, {
+                name: 'm',
+                value: 'posts_create',
+                type: 'hidden',
+            }, {
+                name: 'post_type',
+                value: '',
+                placeholder: 'Post Type',
+            }, {
+                name: 'post_title',
+                value: '',
+                placeholder: 'Post Title',
+            }, {
+                name: 'post_content',
+                value: '',
+                placeholder: 'Post Content',
+                type: 'textarea',
+            },],
+        },
         'task_002': {
-            title: 'Posts Form',
+            title: 'Posts Form (Read/Update/Delete)',
             label_submit: 'LIST POSTS',
             post_processing: 'refresh_posts',
             inputs: [{
@@ -111,6 +142,10 @@ let appData = {
                 name: 'post_type',
                 value: 'page',
                 placeholder: 'Post Type',
+            }, {
+                name: 'post_status',
+                value: 'publish',
+                placeholder: 'Post Publish',
             },],
         },
         'task_001': {

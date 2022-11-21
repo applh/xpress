@@ -151,11 +151,12 @@
         border: 1px solid #ccc;
     }
     .av-read-list table textarea {
-        width: 100%;
+        min-width:400px;
     }
-    .av-read-list button {
+    .av-read-list button, .av-read-list input, .av-read-list textarea {
         display: block;
         width: 100%;
+        padding: 0.25rem;
     }
 </style>
 <!-- JSON DATA -->
@@ -168,7 +169,7 @@
 <!-- VUEJS TEMPLATE -->
 <template id="appTemplate" data-compos="box-sm box-md box-lg box-xl form-builder toolbar read-list">
     <section>
-        <h1>XPress ({{ active_menu?.label }})</h1>
+        <h1>XPress * {{ active_menu?.label }}</h1>
         <av-box-sm v-if="window_w < 800"></av-box-sm>
         <av-box-md v-else-if="window_w < 1200"></av-box-md>
         <av-box-lg v-else-if="window_w < 1600"></av-box-lg>
