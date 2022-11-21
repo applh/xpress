@@ -2,8 +2,54 @@
 
 class xpi_admin
 {
+    static function posts_delete ()
+    {
+        $feedback = "";
+
+        // get post id
+        $post_id = $_REQUEST['post_id'] ?? 0;
+        $post_id = intval($post_id);
+        // if post id is valid (> 0)
+        if ($post_id > 0) {
+            // delete post
+            $res = wp_delete_post($post_id, true);
+            // if post deleted
+            if ($res) {
+                $feedback = "post deleted ($post_id)";
+            }
+            else {
+                $feedback = "ERROR: post NOT deleted ($post_id)";
+            }
+        }
+        else {
+            $feedback = "post id not valid";
+        }
+
+        // refresh posts list
+        $post_type = $_REQUEST['post_type'] ?? 'post';
+        // sanitize post_type
+        $post_type = preg_replace('/[^a-z0-9-_]/i', '', $post_type);
+        // check if post_type is not empty
+        if ($post_type) {
+            // get posts
+            $posts = get_posts([
+                'post_type' => $post_type,
+                'post_status' => 'publish',
+                'numberposts' => -1,
+                'orderby' => 'ID',
+                'order' => 'DESC',
+            ]);
+
+            // store posts in api_data
+            xp_os::api_data('posts', $posts);
+        }
+        
+        return $feedback;
+    }
+
     static function posts_read ()
     {
+        $feedback = "";
         // get post_type
         $post_type = $_REQUEST['post_type'] ?? '';
         // sanitize post_type
@@ -22,10 +68,13 @@ class xpi_admin
 
             // store posts in api_data
             xp_os::api_data('posts', $posts);
+
+            $nb_found = count($posts);
+            $feedback = "($post_type) (found: $nb_found)";
         }
 
         // return posts
-        return "posts read ($post_type)";
+        return $feedback;
 
     }
 
