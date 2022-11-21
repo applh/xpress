@@ -13,13 +13,9 @@ let appData = {
             label: 'Project Starter',
             value: 'task_001',
         },
-        'task_002': {
-            label: 'Posts (R/U/D)',
-            value: 'task_002',
-        },
-        'task_003': {
-            label: 'Posts (C)',
-            value: 'task_003',
+        'posts_crud': {
+            label: 'Posts (CRUD)',
+            value: 'posts_crud',
         },
         'user_key': {
             label: 'User Key',
@@ -99,8 +95,8 @@ let appData = {
                 type: 'file',
             },],
         },
-        'task_003': {
-            title: 'Posts Form (Create)',
+        'posts_crud': {
+            title: 'Post (Create)',
             label_submit: 'CREATE POST',
             post_processing: 'refresh_posts',
             inputs: [{
@@ -126,9 +122,9 @@ let appData = {
                 type: 'textarea',
             },],
         },
-        'task_002': {
-            title: 'Posts Form (Read/Update/Delete)',
-            label_submit: 'LIST POSTS',
+        'posts_read': {
+            title: 'Post (Read/Update/Delete)',
+            label_submit: 'FIND POSTS',
             post_processing: 'refresh_posts',
             inputs: [{
                 name: 'c',
@@ -367,6 +363,8 @@ let methods = {
                 // empty the posts to refresh the view
                 this.posts = [];
             }
+            // show the posts
+            this.options_ui.show_post_list = true;
         }
     },
     async api(inputs, fd = null) {

@@ -6,36 +6,49 @@ console.log('compo module loaded: <?php echo $name ?>');
 let template = `
 <div class="compo <?php echo $name ?>">
     <h3 v-if="title">{{ title }}</h3>
-    <h3 v-if="posts.length > 0">nb found: {{ posts.length }}</h3>
-    <table>
-        <tr v-for="p in posts">
-        <td>
-            <button class="update" @click.prevent="act_update(p)">update</button>
-            <button class="delete" @click.prevent="act_delete(p)">delete</button>
-        </td>
-        <td>{{ p.ID }}</td>
-            <td title="post_name"><input v-model="p.post_name"></td>
-            <td title="post_title"><input v-model="p.post_title"></td>
-            <td><textarea rows="10" cols="80" v-model="p.post_content"></textarea></td>
-            <td>{{ p.post_date }}</td>
-            <td title="post_status"><input v-model="p.post_status"></td>
-            <td title="post_type"><input v-model="p.post_type"></td>
-        </tr>
-    </table>
+    <input type="checkbox" v-model="options_ui.show_post_list">
+    <div v-if="options_ui.show_post_list">
+        <av-form-builder form_name="posts_read"></av-form-builder>
+        <h3 v-if="posts.length > 0">nb found: {{ posts.length }}</h3>
+        <table>
+            <tr v-for="p in posts">
+                <td>
+                    <h3>{{ p.ID }}</h3>
+                    <button class="update" @click.prevent="act_update(p)">update</button>
+                    <button class="delete" @click.prevent="act_delete(p)">delete</button>
+                </td>
+                <td title="post_name"><input v-model="p.post_name"></td>
+                <td title="post_title"><input v-model="p.post_title"></td>
+                <td><textarea rows="10" cols="80" v-model="p.post_content"></textarea></td>
+                <td>{{ p.post_date }}</td>
+                <td title="post_status"><input v-model="p.post_status"></td>
+                <td title="post_type"><input v-model="p.post_type"></td>
+            </tr>
+        </table>
+    </div>
 </div>
 `;
 
 export default {
     template,
     inject: ['avroot'],
+    props: {
+        title: {
+            default:null,
+        }
+    },
     data() {
         return {
+            options: {},
         }
     },
     computed: {
         posts() {
             return this.avroot.posts;
         },
+        options_ui() {
+            return this.avroot.options_ui;
+        }
     },
     methods: {
         async act_update(p) {

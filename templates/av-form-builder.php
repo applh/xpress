@@ -27,6 +27,7 @@ let template = `
 export default {
     template,
     inject: ['avroot'],
+    props:['form_name'],
     data() {
         return {
             active_menu: 'home',
@@ -36,10 +37,25 @@ export default {
     },
     computed: {
         af() {
-            return this.avroot.active_form;
+            let res = null;
+            if (this.form_name) {
+                res = this.avroot.forms[this.form_name];
+            }
+            else {
+                res = this.avroot.active_form;
+            }
+
+            return res;
         },
         inputs() {
-            return this.avroot.active_form?.inputs ?? [];
+            let res = null;
+            if (this.form_name) {
+                res = this.avroot.forms[this.form_name]?.inputs ?? [];
+            }
+            else {
+                res = this.avroot.active_form?.inputs ?? [];
+            }
+            return res;
         }
     },
     methods: {
