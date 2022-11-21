@@ -146,6 +146,8 @@ let appData = {
         },
         'task_001': {
             title: 'Project Starter',
+            description: 'This is a fast setup for a new project.',
+            before_submit_txt: '<a href="/wp-admin/options.php" target="_blank">...More WP options ?...</a>',
             label_submit: 'SAVE OPTIONS',
             inputs: [{
                 name: 'c',
@@ -191,6 +193,16 @@ let appData = {
                 value: "article-1\narticle-2\narticle-3\narticle-4\narticle-5",
                 type: 'textarea',
                 placeholder: 'enter your articles here',
+            }, {
+                name: 'option_post_types',
+                label: 'Custom Post Types',
+                value: '',
+                placeholder: 'Custom Post Types',
+            }, {
+                name: 'option_post_types_noui',
+                label: 'Custom Post Types (NO UI)',
+                value: '',
+                placeholder: 'Custom Post Types No UI',
             }, {
                 name: 'option_blogname',
                 label: 'Blog Name',

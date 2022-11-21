@@ -6,6 +6,7 @@ console.log('compo module loaded: <?php echo $name ?>');
 let template = `
 <div class="compo <?php echo $name ?>">
     <h3 v-if="af?.title">{{ af?.title }}</h3>
+    <div v-if="af?.description" v-html="af?.description"></div>
     <div>
         <form @submit.prevent="send_form($event)" enctype="multipart/form-data">
             <template v-for="input in inputs">
@@ -17,6 +18,7 @@ let template = `
                     <input v-else :type="input.type" :placeholder="input.placeholder" v-model="input.value">
                 </div>
             </template>
+            <div v-if="af?.before_submit_txt" v-html="af?.before_submit_txt"></div>
             <button type="submit">{{ af?.label_submit ?? 'SEND' }}</button>
             <pre class="feedback">{{ feedback }}</pre>
         </form>

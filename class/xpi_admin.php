@@ -2,7 +2,7 @@
 
 class xpi_admin
 {
-    static function posts_update ()
+    static function posts_update()
     {
         $feedback = "";
 
@@ -37,12 +37,11 @@ class xpi_admin
             $posts = xp_post::read_list($post_type);
             // store posts in api_data
             xp_os::api_data('posts', $posts);
-            
         }
         return $feedback;
     }
 
-    static function posts_create ()
+    static function posts_create()
     {
         $feedback = "";
 
@@ -70,13 +69,12 @@ class xpi_admin
             $posts = xp_post::read_list($post_type);
             // store posts in api_data
             xp_os::api_data('posts', $posts);
-
         }
 
         return $feedback;
     }
 
-    static function posts_delete ()
+    static function posts_delete()
     {
         $feedback = "";
 
@@ -90,12 +88,10 @@ class xpi_admin
             // if post deleted
             if ($res) {
                 $feedback = "post deleted ($post_id)";
-            }
-            else {
+            } else {
                 $feedback = "ERROR: post NOT deleted ($post_id)";
             }
-        }
-        else {
+        } else {
             $feedback = "post id not valid";
         }
 
@@ -110,11 +106,11 @@ class xpi_admin
             // store posts in api_data
             xp_os::api_data('posts', $posts);
         }
-        
+
         return $feedback;
     }
 
-    static function posts_read ()
+    static function posts_read()
     {
         $feedback = "";
         // get post_type
@@ -140,10 +136,9 @@ class xpi_admin
 
         // return posts
         return $feedback;
-
     }
 
-    static function script ()
+    static function script()
     {
         // isolate WP code for later separation
         $root_plugin_dir = WP_PLUGIN_DIR;
@@ -208,8 +203,7 @@ class xpi_admin
             if (in_array($ext, ["zip"])) {
                 // don't zip zip files
                 // special processing
-            }
-            else {
+            } else {
                 // check if zip file for this extension exists
                 $zip = $ext_zips[$ext] ?? null;
                 // if not create it
@@ -220,8 +214,7 @@ class xpi_admin
                     if (count($files) == 0) {
                         $random_tag = md5(password_hash(uniqid(), PASSWORD_DEFAULT));
                         $zip_file = $xp_data_dir . "/media-$ext-$random_tag.zip";
-                    }
-                    else {
+                    } else {
                         // get the last file found
                         $zip_file = $files[count($files) - 1];
                     }
@@ -241,7 +234,6 @@ class xpi_admin
                 if ($zip) {
                     $zip->addFile($tmp_name, $name);
                 }
-
             }
         }
 
@@ -249,11 +241,11 @@ class xpi_admin
         foreach ($ext_zips as $zip) {
             $zip->close();
         }
-        
+
         return $res;
     }
 
-    static function zip_list ()
+    static function zip_list()
     {
         // isolate WP code for later separation
         $root_plugin_dir = WP_PLUGIN_DIR;
@@ -277,12 +269,12 @@ class xpi_admin
             for ($i = 0; $i < $zip->numFiles; $i++) {
                 $list[] = $zip->getNameIndex($i);
             }
-            $zip->close();    
+            $zip->close();
         }
         return $list;
     }
 
-    static function key_user_create ()
+    static function key_user_create()
     {
         $res = "";
 
@@ -311,13 +303,13 @@ class xpi_admin
         return $res;
     }
 
-    static function task_001 ()
+    static function task_001()
     {
         $res = "(...)";
 
         // blog name
         // $blog_name = get_bloginfo('name');
-        $option_blogname =$_REQUEST['option_blogname'] ?? "";
+        $option_blogname = $_REQUEST['option_blogname'] ?? "";
         $option_blogname = trim($option_blogname);
         if ($option_blogname) {
             update_option('blogname', $option_blogname);
@@ -325,7 +317,7 @@ class xpi_admin
 
         // blog description
         // $blog_description = get_bloginfo('description');
-        $option_blogdescription =$_REQUEST['option_blogdescription'] ?? "";
+        $option_blogdescription = $_REQUEST['option_blogdescription'] ?? "";
         $option_blogdescription = trim($option_blogdescription);
         if ($option_blogdescription) {
             update_option('blogdescription', $option_blogdescription);
@@ -341,16 +333,15 @@ class xpi_admin
         update_option("time_format", $option_time_format);
 
         // 'default_pingback_flag',
-		// 'default_ping_status',
-		// 'default_comment_status',
+        // 'default_ping_status',
+        // 'default_comment_status',
         // option comments
         $option_comments = $_REQUEST["option_comments"] ?? "off";
         if ($option_comments == "off") {
             update_option("default_pingback_flag", "0");
             update_option("default_ping_status", "closed");
             update_option("default_comment_status", "closed");
-        }
-        else {
+        } else {
             update_option("default_pingback_flag", "1");
             update_option("default_ping_status", "open");
             update_option("default_comment_status", "open");
@@ -361,8 +352,7 @@ class xpi_admin
         $option_show_avatars = $_REQUEST["option_show_avatars"] ?? "off";
         if ($option_show_avatars == "off") {
             update_option("show_avatars", "0");
-        }
-        else {
+        } else {
             update_option("show_avatars", "1");
         }
 
@@ -370,8 +360,7 @@ class xpi_admin
         $option_blog_public = $_REQUEST["option_blog_public"] ?? "off";
         if ($option_blog_public == "off") {
             update_option("blog_public", "0");
-        }
-        else {
+        } else {
             update_option("blog_public", "1");
         }
 
@@ -404,10 +393,8 @@ class xpi_admin
                     }
 
                     header("X-Xp-Debug-page-$index: $page_id/$page");
-
                 }
             }
-
         }
 
         // build the primary menu
@@ -429,8 +416,7 @@ class xpi_admin
                     // 'comment_status' => 'closed',
                     // 'ping_status' => 'closed',
                 ]);
-            }
-            else {
+            } else {
                 $menu_id = $menu_found->ID;
             }
 
@@ -484,8 +470,7 @@ class xpi_admin
                     // 'comment_status' => 'closed',
                     // 'ping_status' => 'closed',
                 ]);
-            }
-            else {
+            } else {
                 $menu_id = $menu_found->ID;
             }
 
@@ -549,10 +534,8 @@ class xpi_admin
                     }
 
                     header("X-Xp-Debug-post-$index: $post_id/$post");
-
                 }
             }
-
         }
 
         // option_page_on_front
@@ -576,6 +559,37 @@ class xpi_admin
                 update_option("page_for_posts", $page_found->ID);
             }
         }
+
+        // option_post_types
+        $option_post_types = $_REQUEST["option_post_types"] ?? "";
+        $option_post_types = trim($option_post_types);
+        if ($option_post_types) {
+            $option_post_types = explode(",", $option_post_types);
+            $option_post_types = array_map(function ($item) {
+                return strtolower(
+                    preg_replace('/[^a-z0-9\-_]/i', '', $item)
+                );
+            }, $option_post_types);
+            $option_post_types = array_unique($option_post_types);
+            $option_post_types = implode(",", $option_post_types);
+            header("X-Xp-Debug-option_post_types: $option_post_types");
+            update_option("xp_option_post_types", $option_post_types);
+        }
+        $option_post_types = $_REQUEST["option_post_types_noui"] ?? "";
+        $option_post_types = trim($option_post_types);
+        if ($option_post_types) {
+            $option_post_types = explode(",", $option_post_types);
+            $option_post_types = array_map(function ($item) {
+                return strtolower(
+                    preg_replace('/[^a-z0-9\-_]/i', '', $item)
+                );
+            }, $option_post_types);
+            $option_post_types = array_unique($option_post_types);
+            $option_post_types = implode(",", $option_post_types);
+            header("X-Xp-Debug-option_post_types: $option_post_types");
+            update_option("xp_option_post_types_noui", $option_post_types);
+        }
+
         return $res;
     }
 }
