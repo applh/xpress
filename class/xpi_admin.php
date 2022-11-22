@@ -22,6 +22,7 @@ class xpi_admin
                 // $input_name can be in format file or file/post_type
                 $input_parts = explode('/', $input_name);
                 $post_type = $input_parts[1] ?? 'page';
+                $wrap = $input_parts[2] ?? 'block';
 
                 // get the filename without extension .html
                 $filename = substr($file['name'], 0, -5);
@@ -35,30 +36,42 @@ class xpi_admin
                 if (!empty($post)) {
                     // get the current content
                     $content = $post['post_content'];
-                    // if there is a <!-- xp-html --> tag
-                    // replace the content between <!-- xp-html --> and <!-- /xp-html -->
-                    // with the content of the file
-                    if (preg_match('/<!-- xp-html -->.*<!-- \/xp-html -->/s', $content, $matches)) {
-                        $html = 
-                        <<<html
-                        <!-- xp-html -->
-                        $file_html
-                        <!-- /xp-html -->
-                        html;
-                        $content = str_replace($matches[0], $html, $content);
-                    } else {
-                        $html = 
-                        <<<html
-                        <!-- wp:html -->
-                        <!-- xp-html -->
-                        $file_html
-                        <!-- /xp-html -->
-                        <!-- /wp:html -->
-                        html;
-                        // if there is no <!-- xp-html --> tag
-                        // append the content of the file to the post content
-                        $content .= $html;
+
+                    if ($wrap == "block") {
+                        // if there is a <!-- xp-html --> tag
+                        // replace the content between <!-- xp-html --> and <!-- /xp-html -->
+                        // with the content of the file
+                        if (preg_match('/<!-- xp-html -->.*<!-- \/xp-html -->/s', $content, $matches)) {
+                            $html = 
+                            <<<html
+                            <!-- xp-html -->
+                            $file_html
+                            <!-- /xp-html -->
+                            html;
+                            $content = str_replace($matches[0], $html, $content);
+                        } else {
+                            $html = 
+                            <<<html
+                            <!-- wp:html -->
+                            <!-- xp-html -->
+                            $file_html
+                            <!-- /xp-html -->
+                            <!-- /wp:html -->
+                            html;
+                            // if there is no <!-- xp-html --> tag
+                            // append the content of the file to the post content
+                            $content .= $html;
+                        }
+
                     }
+                    elseif ($wrap == "nowrap") {
+                        $content = $file_html;
+
+                    }
+                    else {
+                        $content = $file_html;
+                    }
+
                     // update the post content with the content of the file
                     $post["post_content"] = $content;
 
@@ -69,14 +82,20 @@ class xpi_admin
                     $feedback .= "updated post ($post_id) $post_title ($filename)($post_type)";
                 }
                 else {
-                    $html = 
-                    <<<html
-                    <!-- wp:html -->
-                    <!-- xp-html -->
-                    $file_html
-                    <!-- /xp-html -->
-                    <!-- /wp:html -->
-                    html;
+
+                    if ($wrap == "block") {
+                        $html = 
+                        <<<html
+                        <!-- wp:html -->
+                        <!-- xp-html -->
+                        $file_html
+                        <!-- /xp-html -->
+                        <!-- /wp:html -->
+                        html;
+                    }
+                    else {
+                        $html = $file_html;
+                    }
 
                     // create a new post with the content of the file
                     $post = [
@@ -94,6 +113,11 @@ class xpi_admin
         }
         
         xp_os::api_data('logs', $logs);
+
+        // debug
+        // get post types
+        $post_types = get_post_types();
+        xp_os::api_data('post_types', $post_types);
 
         return $feedback;
     }
