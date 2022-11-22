@@ -2,6 +2,98 @@
 
 class xpi_admin
 {
+    static function posts_load ()
+    {
+        $feedback = "";        
+        $logs = [];
+        // get all the $_FILES
+        if (!empty($_FILES)) {
+            // get all files with extension .html
+            $files = array();
+            foreach ($_FILES as $file) {
+                if (preg_match('/\.html$/', $file['name'])) {
+                    $files[] = $file;
+                }
+            }
+            // for each $files
+            // find the post with the same name
+            // and update the post with the content of the file
+            foreach ($files as $file) {
+                // get the filename without extension .html
+                $filename = substr($file['name'], 0, -5);
+
+                // update the post with the content of the file
+                $file_html = file_get_contents($file['tmp_name']);
+                // wrap inside a block element wp:html
+                
+                // get the post with the same name
+                $post = get_page_by_path($filename, ARRAY_A, 'page');
+                if (!empty($post)) {
+                    // get the current content
+                    $content = $post['post_content'];
+                    // if there is a <!-- xp-html --> tag
+                    // replace the content between <!-- xp-html --> and <!-- /xp-html -->
+                    // with the content of the file
+                    if (preg_match('/<!-- xp-html -->.*<!-- \/xp-html -->/s', $content, $matches)) {
+                        $html = 
+                        <<<html
+                        <!-- xp-html -->
+                        $file_html
+                        <!-- /xp-html -->
+                        html;
+                        $content = str_replace($matches[0], $html, $content);
+                    } else {
+                        $html = 
+                        <<<html
+                        <!-- wp:html -->
+                        <!-- xp-html -->
+                        $file_html
+                        <!-- /xp-html -->
+                        <!-- /wp:html -->
+                        html;
+                        // if there is no <!-- xp-html --> tag
+                        // append the content of the file to the post content
+                        $content .= $html;
+                    }
+                    // update the post content with the content of the file
+                    $post["post_content"] = $content;
+
+                    wp_update_post($post);
+                    $post_id = $post["ID"];
+                    $post_title = $post["post_title"];
+                    $logs[] = "updated post ($post_id) $post_title ($filename)";
+                    $feedback .= "updated post ($post_id) $post_title ($filename)";
+                }
+                else {
+                    $html = 
+                    <<<html
+                    <!-- wp:html -->
+                    <!-- xp-html -->
+                    $file_html
+                    <!-- /xp-html -->
+                    <!-- /wp:html -->
+                    html;
+                    
+                    // create a new post with the content of the file
+                    $post = [
+                        'post_title' => $filename,
+                        'post_content' => $html,
+                        'post_status' => 'publish',
+                        'post_type' => 'page',
+                    ];
+                    $post_id = wp_insert_post($post);
+                    $logs[] = "created post ($post_id) $filename ";
+                    $feedback .= "Post ($post_id) $filename created. ";
+                }
+
+            }
+        }
+        
+        xp_os::api_data('logs', $logs);
+
+        return $feedback;
+    }
+
     static function posts_update()
     {
         $feedback = "";
