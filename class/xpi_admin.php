@@ -10,15 +10,19 @@ class xpi_admin
         if (!empty($_FILES)) {
             // get all files with extension .html
             $files = array();
-            foreach ($_FILES as $file) {
+            foreach ($_FILES as $input_name => $file) {
                 if (preg_match('/\.html$/', $file['name'])) {
-                    $files[] = $file;
+                    $files[$input_name] = $file;
                 }
             }
             // for each $files
             // find the post with the same name
             // and update the post with the content of the file
-            foreach ($files as $file) {
+            foreach ($files as $input_name => $file) {
+                // $input_name can be in format file or file/post_type
+                $input_parts = explode('/', $input_name);
+                $post_type = $input_parts[1] ?? 'page';
+
                 // get the filename without extension .html
                 $filename = substr($file['name'], 0, -5);
 
@@ -27,7 +31,7 @@ class xpi_admin
                 // wrap inside a block element wp:html
                 
                 // get the post with the same name
-                $post = get_page_by_path($filename, ARRAY_A, 'page');
+                $post = get_page_by_path($filename, ARRAY_A, $post_type);
                 if (!empty($post)) {
                     // get the current content
                     $content = $post['post_content'];
@@ -61,8 +65,8 @@ class xpi_admin
                     wp_update_post($post);
                     $post_id = $post["ID"];
                     $post_title = $post["post_title"];
-                    $logs[] = "updated post ($post_id) $post_title ($filename)";
-                    $feedback .= "updated post ($post_id) $post_title ($filename)";
+                    $logs[] = "updated post ($post_id) $post_title ($filename)($post_type)";
+                    $feedback .= "updated post ($post_id) $post_title ($filename)($post_type)";
                 }
                 else {
                     $html = 
@@ -73,17 +77,17 @@ class xpi_admin
                     <!-- /xp-html -->
                     <!-- /wp:html -->
                     html;
-                    
+
                     // create a new post with the content of the file
                     $post = [
                         'post_title' => $filename,
                         'post_content' => $html,
                         'post_status' => 'publish',
-                        'post_type' => 'page',
+                        'post_type' => $post_type,
                     ];
                     $post_id = wp_insert_post($post);
-                    $logs[] = "created post ($post_id) $filename ";
-                    $feedback .= "Post ($post_id) $filename created. ";
+                    $logs[] = "created post ($post_type)($post_id) $filename ";
+                    $feedback .= "Post ($post_type)($post_id) $filename created. ";
                 }
 
             }
